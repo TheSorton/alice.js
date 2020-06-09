@@ -3,7 +3,7 @@ const discord = require('discord.js');
 const config = require('../../config.json')
 
 
-module.exports = class Kick extends Command {
+module.exports = class Mute extends Command {
     constructor(client) {
 		super(client, {
 			name: 'mute',

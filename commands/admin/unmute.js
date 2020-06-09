@@ -22,10 +22,10 @@ module.exports = class Unmute extends Command {
     run(message, {user}) {
         if (message.guild.member(user).roles.cache.some(role => role.name === 'silenced')) {
         message.guild.member(user).roles.remove(config['Bot']['Mute'])
-        message.say(`**${user.tag}** has been unmuted.`)
+        message.say(`**${user}** has been unmuted.`)
         }
         else {
-            message.say(`**${user.tag}** is not muted.`)
+            message.say(`${user} is not muted.`)
         }
 
     }
