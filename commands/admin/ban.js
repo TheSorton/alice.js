@@ -27,6 +27,6 @@ module.exports = class Ban extends Command {
 	}
     run(message, { user, string }) {
         message.guild.member(user).ban({reason: string})
-        message.say(`${user} has been banned.`)
+        message.say(`**${user.tag}** has been banned.`)
     }
 };

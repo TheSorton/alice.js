@@ -20,6 +20,6 @@ module.exports = class Kick extends Command {
 	}
     run(message, {user}) {
         message.guild.member(user).kick()
-        message.say(`${user} has been kicked.`)
+        message.say(`**${user.tag}** has been kicked.`)
     }
 };
