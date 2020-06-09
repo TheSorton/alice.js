@@ -13,7 +13,7 @@ module.exports = class Avatar extends Command {
             args: [
                 {
                     type:"user",
-                    prompt:"Which user would you like to get the avatar of?",
+                    prompt:"",
                     key:"user",
                     default: msg => msg.author
                 }],
