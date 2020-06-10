@@ -27,10 +27,10 @@ client.on('messageDelete', async message => {
 
 	// Enhance the embed based on specific conditions
 	if (target.id === message.author.id) {
-		deleteEmbed.setAuthor(`A message by ${message.author.tag} was deleted by ${executor.tag}.`, message.author.avatarURL('png'))		
+		deleteEmbed.setAuthor(`A message by ${message.author.tag} was deleted by ${executor.tag}.`, message.author.avatarURL({type: 'png'}))		
 	}	
 	else {
-		deleteEmbed.setAuthor(`${message.author.tag} deleted their message.`, message.author.avatarURL('png'));
+		deleteEmbed.setAuthor(`${message.author.tag} deleted their message.`, message.author.avatarURL({type: 'png'}));
 	}
 	if (message.attachments.size > 0) {
 		deleteEmbed.addField('Attachment', message.attachments.first().proxyURL)
