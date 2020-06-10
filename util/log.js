@@ -38,17 +38,23 @@ client.on('messageDelete', async message => {
 	client.channels.cache.get(config['Channels']['Log']).send({embed: deleteEmbed});
 });
 
+// Edited message log
 client.on('messageUpdate', (oldMessage, newMessage) => {
-	if (oldMessage.author === oldMessage.author.bot) return;
+	// Was it a bot?
+	if (oldMessage.author.bot) return;
 	else {
-        console.log(oldMessage.content + '\n' + newMessage.content)
+		// If it wasn't a bot, we should log this
+		// Let's create an embed for this
 		const editEmbed = new Discord.MessageEmbed()
 		.setColor('#363636')
+		.setAuthor(`${oldMessage.author.tag} edited their message`, oldMessage.author.avatarURL({type: 'png'}))
 		.addFields(
 			{name: 'Original Message', value: oldMessage.content || "Message not found"},
 			{name: 'Edited Message', value: newMessage.content || "Message not found"}
 		)
 		.setFooter(`Message ID: ${newMessage.id} | Author ID: ${newMessage.author.id}`)
+
+		// Embed done, so let's send it to our logging channel
         client.channels.cache.get(config['Channels']['Log']).send({embed: editEmbed })
 	  }
   });
