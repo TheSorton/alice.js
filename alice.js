@@ -20,10 +20,7 @@ client.registry
 		['utility', 'Utility commands'],
 	])
 	.registerDefaultGroups()
-	.registerDefaultCommands({
-        eval: false,
-        prefix: false
-    })
+	.registerDefaultCommands()
     .registerCommandsIn(path.join(__dirname, 'commands'));
     
 
@@ -32,5 +29,20 @@ client.once('ready', () => {
     client.user.setActivity(config['Bot']['Prefix'] + 'help');
 });
     
+client.on('messageUpdate', (oldMessage, newMessage) => {
+	if (oldMessage.author === oldMessage.author.bot) return;
+	else {
+        console.log(oldMessage.content + '\n' + newMessage.content)
+		const editEmbed = new Discord.MessageEmbed()
+		.setColor('#363636')
+		.addFields(
+			{name: 'Original Message', value: oldMessage.content || "Message not found"},
+			{name: 'Edited Message', value: newMessage.content || "Message not found"}
+		)
+		.setFooter(`Message ID: ${newMessage.id} | Author ID: ${newMessage.author.id}`)
+        client.channels.cache.get(config['Channels']['Log']).send({embed: editEmbed })
+	  }
+  });
+  
 client.on('error', console.error);
 client.login(config['Bot']['Token']);
