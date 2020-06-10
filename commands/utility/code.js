@@ -9,7 +9,7 @@ module.exports = class Code extends Command {
 			aliases: ['source', 'src'],
 			group: 'util',
 			memberName: 'code',
-			description: "Gives the source  code."
+			description: "Gives the source code."
 		});
 	}
     run(message) {
