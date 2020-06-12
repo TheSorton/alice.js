@@ -68,6 +68,9 @@ client.on('guildMemberUpdate', async (oldMember, newMember) => {
 	const memberUpdateLog = fetchedLogs.entries.first();
 	const { executor, target } = memberUpdateLog;
 
+	// Whenever someone joins, guildMemberUpdate emits
+	// Since we are checking if and only if someone updates their nickname, alice should only log if the nicknames don't match.
+	if (oldMember.nickname !== newMember.nickname) {
 	const updateEmbed = new Discord.MessageEmbed()
 	.setColor('#363636')
 	.addFields(
@@ -82,6 +85,7 @@ client.on('guildMemberUpdate', async (oldMember, newMember) => {
 		updateEmbed.setAuthor(`${target.username} had their nickname changed by ${executor.username}`,target.avatarURL({type: 'png'}))
 	}
 	client.channels.cache.get(config['Channels']['Log']).send({embed: updateEmbed})
+}
 })
 
 client.on('guildBanAdd', async (guild, member) => {
@@ -105,31 +109,10 @@ client.on('guildBanAdd', async (guild, member) => {
 	}
 })
 
-client.on('guildMemberRemove', async member => {
-	const fetchedLogs = await member.guild.fetchAuditLogs({
-		limit: 1,
-		type: 'MEMBER_KICK',
-	});
-	// Since we only have 1 audit log entry in this collection, we can simply grab the first one
-	const kickLog = fetchedLogs.entries.first();
+// Tell in system channel when member left
+client.on('guildMemberRemove', async guildMember => {
+	guildMember.guild.systemChannel.send(`**${guildMember.user.tag}** has left.`)})
 
-	// Let's check if they actually left by themselves
-	if (!kickLog) {
-		let embed = new Discord.MessageEmbed()
-		.setColor('#fcba03')
-        .setAuthor(`${member.tag} left the server.`, target.avatarURL({type: 'png'}))
-        .setFooter('User ID: ' + member.id);
-		client.channels.cache.get(config['Channels']['Log']).send({embed: embed})
-		client.guild.systemChannel.send(`**${member.tag}** has left.`)
-	}
-	const { executor, target } = kickLog;
-	// If the executor was the bot, return since the kick command has its own log
-	if (executor === client.user.id) return;
-	else {
-	let embed = new Discord.MessageEmbed()
-		.setColor('#fcba03')
-        .setAuthor(`${target.tag} was kicked by ${executor.tag}.`, target.avatarURL({type: 'png'}))
-        .setFooter('User ID: ' + member.id);
-		client.channels.cache.get(config['Channels']['Log']).send({embed: embed})
-	}
-});
+// Same but when they join
+client.on('guildMemberAdd', async guildMember => {
+	guildMember.guild.systemChannel.send(`<@${guildMember.user.id}> has joined.`)}) 
