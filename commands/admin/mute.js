@@ -10,6 +10,7 @@ module.exports = class Mute extends Command {
 			group: 'admin',
 			memberName: 'mute',
             description: "Mutes a user.",
+            userPermissions: ['MANAGE_ROLES'],
             args: [
                 {
                     type:"user",

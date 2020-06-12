@@ -10,6 +10,7 @@ module.exports = class Ban extends Command {
 			group: 'admin',
 			memberName: 'ban',
             description: "Bans a user. If no reason is given, 'No reason given' is the reason",
+            userPermissions: ['BAN_MEMBERS'],            
             args: [
                 {
                     type: "user",

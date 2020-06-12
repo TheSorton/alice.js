@@ -9,6 +9,7 @@ module.exports = class Kick extends Command {
 			group: 'admin',
 			memberName: 'kick',
             description: "Kicks a user.",
+            userPermissions: ['KICK_MEMBERS'],
             args: [
                 {
                     type:"user",

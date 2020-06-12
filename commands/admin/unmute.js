@@ -10,6 +10,7 @@ module.exports = class Unmute extends Command {
 			group: 'admin',
 			memberName: 'unmute',
             description: "unmutes a user.",
+            userPermissions: ['MANAGE_ROLES'],
             args: [
                 {
                     type:"user",
