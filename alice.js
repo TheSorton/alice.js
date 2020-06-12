@@ -3,6 +3,7 @@ const config = require('./config.json')
 const { CommandoClient } = require('discord.js-commando');
 const path = require('path');
 const fs = require("fs");
+const {banAuthor} = require('./commands/admin/ban.js')
 
 const client = new CommandoClient({
 	commandPrefix: config['Bot']['Prefix'],
@@ -18,6 +19,7 @@ client.registry
 	.registerGroups([
 		['admin', 'Admin commands'],
 		['utility', 'Utility commands'],
+		['misc', "Commands that don't fit in a specific category"]
 	])
 	.registerDefaultGroups()
 	.registerDefaultCommands()
