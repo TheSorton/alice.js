@@ -1,25 +1,24 @@
 {
   "name": "alice.js",
-  "version": "master",
+  "version": "1.0.0",
   "description": "a discord bot in js",
   "main": "alice.js",
-  "dependencies": {
-    "discord.js": "^12.2.0",
-    "discord.js-commando": "git+https://github.com/discordjs/Commando.git"
-  },
-  "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://gitlab.com/TheSorton/alice.js.git"
+    "url": "git+https://github.com/TheSorton/alice.js.git"
   },
   "keywords": [],
-  "author": "Sky Miles",
-  "license": "MIT",
+  "author": "",
+  "license": "ISC",
   "bugs": {
-    "url": "https://gitlab.com/TheSorton/alice.js/issues"
+    "url": "https://github.com/TheSorton/alice.js/issues"
   },
-  "homepage": "https://gitlab.com/TheSorton/alice.js#readme"
+  "homepage": "https://github.com/TheSorton/alice.js#readme",
+  "dependencies": {
+    "discord.js": "^12.2.0",
+    "discord.js-commando": "git+https://github.com/discordjs/Commando.git"
+  }
 }
