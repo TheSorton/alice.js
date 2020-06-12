@@ -27,10 +27,10 @@ client.on('messageDelete', async message => {
 
 	// Enhance the embed based on specific conditions
 	if (target.id === message.author.id) {
-		deleteEmbed.setAuthor(`A message by ${message.author.tag} was deleted by ${executor.tag}.`, message.author.avatarURL({type: 'png'}))		
+		deleteEmbed.setAuthor(`A message by ${message.author.tag} was deleted by ${executor.tag}`, message.author.avatarURL({type: 'png'}))		
 	}	
 	else {
-		deleteEmbed.setAuthor(`${message.author.tag} deleted their message.`, message.author.avatarURL({type: 'png'}));
+		deleteEmbed.setAuthor(`${message.author.tag} deleted their message`, message.author.avatarURL({type: 'png'}));
 	}
 	if (message.attachments.size > 0) {
 		deleteEmbed.addField('Attachment', message.attachments.first().proxyURL)
@@ -56,5 +56,80 @@ client.on('messageUpdate', (oldMessage, newMessage) => {
 
 		// Embed done, so let's send it to our logging channel
         client.channels.cache.get(config['Channels']['Log']).send({embed: editEmbed })
-	  }
-  });
+	}
+});
+
+// Nickname update log
+client.on('guildMemberUpdate', async (oldMember, newMember) => {
+	const fetchedLogs = await oldMember.guild.fetchAuditLogs({
+		limit: 1,
+		type: 'MEMBER_UPDATE',
+	});
+	const memberUpdateLog = fetchedLogs.entries.first();
+	const { executor, target } = memberUpdateLog;
+
+	const updateEmbed = new Discord.MessageEmbed()
+	.setColor('#363636')
+	.addFields(
+		{name: 'Old Nickname', value: oldMember.nickname || "No user-defined nickname", inline: true},
+		{name: 'New Nickname', value: newMember.nickname || "No user-defined nickname", inline: true}
+	)
+	.setFooter(`User ID: ${newMember.id}`)
+	if (target.id === executor.id) {
+		updateEmbed.setAuthor(`${target.username} changed their username`, target.avatarURL({type: 'png'}))
+	}
+	else {
+		updateEmbed.setAuthor(`${target.username} had their nickname changed by ${executor.username}`,target.avatarURL({type: 'png'}))
+	}
+	client.channels.cache.get(config['Channels']['Log']).send({embed: updateEmbed})
+})
+
+client.on('guildBanAdd', async (guild, member) => {
+	const fetchedLogs = await guild.fetchAuditLogs({
+		limit: 1,
+		type: 'MEMBER_BAN_ADD',
+	});
+	const banAddLog = fetchedLogs.entries.first();
+	const { executor, target, reason } = banAddLog;
+
+	// If the executor was the bot, return since the ban command has its own log
+	if (executor === client.user.id) return;
+	else {
+		let embed = new Discord.MessageEmbed()
+        .setColor('#a30000')
+        .setAuthor(`${target.tag} was banned by ${executor.tag}`, target.avatarURL({type: 'png'}))
+        .addField('Banned Time', "Not available because alice was not used.")
+        .addField('Banned Reason', 	)
+        .setFooter('Banned user ID: ' + target.id);
+        client.channels.cache.get(config['Channels']['Log']).send({embed: embed})
+	}
+})
+
+client.on('guildMemberRemove', async member => {
+	const fetchedLogs = await member.guild.fetchAuditLogs({
+		limit: 1,
+		type: 'MEMBER_KICK',
+	});
+	// Since we only have 1 audit log entry in this collection, we can simply grab the first one
+	const kickLog = fetchedLogs.entries.first();
+
+	// Let's check if they actually left by themselves
+	if (!kickLog) {
+		let embed = new Discord.MessageEmbed()
+		.setColor('#fcba03')
+        .setAuthor(`${member.tag} left the server.`, target.avatarURL({type: 'png'}))
+        .setFooter('User ID: ' + member.id);
+		client.channels.cache.get(config['Channels']['Log']).send({embed: embed})
+		client.guild.systemChannel.send(`**${member.tag}** has left.`)
+	}
+	const { executor, target } = kickLog;
+	// If the executor was the bot, return since the kick command has its own log
+	if (executor === client.user.id) return;
+	else {
+	let embed = new Discord.MessageEmbed()
+		.setColor('#fcba03')
+        .setAuthor(`${target.tag} was kicked by ${executor.tag}.`, target.avatarURL({type: 'png'}))
+        .setFooter('User ID: ' + member.id);
+		client.channels.cache.get(config['Channels']['Log']).send({embed: embed})
+	}
+});

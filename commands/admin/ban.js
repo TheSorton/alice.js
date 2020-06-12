@@ -1,5 +1,6 @@
 const { Command } = require('discord.js-commando');
 const discord = require('discord.js');
+const config = require('../../config.json')
 
 
 module.exports = class Ban extends Command {
@@ -28,5 +29,14 @@ module.exports = class Ban extends Command {
     run(message, { user, string }) {
         message.guild.member(user).ban({reason: string})
         message.say(`**${user.tag}** has been banned.`)
+        let embed = new discord.MessageEmbed()
+        .setColor('#a30000')
+        .setAuthor(`${user.tag} was banned by ${message.author.tag}`, user.avatarURL({type: 'png'}))
+        .addField('Banned Time', message.createdAt)
+        .addField('Banned Reason', string)
+        .setFooter('Banned user ID: ' + user.id);
+        message.guild.channels.cache.get(config['Channels']['Log']).send({embed: embed})
+
+
     }
 };
