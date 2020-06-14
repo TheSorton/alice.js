@@ -1,0 +1,31 @@
+{
+    "Bot": {
+        "Token": "token",
+        "Prefix": "prefix",
+        "Owner": "owner id",
+        "Mute": "mute role"
+    },
+    "Channels": {
+            "Rules": "rules channel",
+            "Log": "log channel"
+        },
+    "Google":  {
+            "API Key": "google api",
+            "Google CX": "google cx"
+            },
+    
+    "Last.fm": {
+            "API key": "lastfm api",
+            "Secret": "lastfm secret"
+        },
+    
+    "Spotify": {
+            "Secret": "spotify secret",
+            "ID": "spotify id"
+        },
+    
+    "Roles": [
+        "roles",
+        "..."
+    ]
+}
