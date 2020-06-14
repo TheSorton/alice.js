@@ -88,6 +88,7 @@ client.on('guildMemberUpdate', async (oldMember, newMember) => {
 }
 })
 
+// Ban log
 client.on('guildBanAdd', async (guild, member) => {
 	const fetchedLogs = await guild.fetchAuditLogs({
 		limit: 1,
