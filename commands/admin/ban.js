@@ -9,7 +9,7 @@ module.exports = class Ban extends Command {
 			name: 'ban',
 			group: 'admin',
 			memberName: 'ban',
-            description: "Bans a user. If no reason is given, 'No reason given' is the reason",
+            description: "Bans a user. If a reason is **NOT** given, 'No reason given' is the reason",
             userPermissions: ['BAN_MEMBERS'],            
             args: [
                 {
@@ -19,6 +19,7 @@ module.exports = class Ban extends Command {
                 },
                 {
                     type: "string",
+                    label: "reason",
                     prompt: "",
                     key: "string",
                     default: "No reason given"
@@ -30,6 +31,7 @@ module.exports = class Ban extends Command {
     run(message, { user, string }) {
         message.guild.member(user).ban({reason: string})
         message.say(`**${user.tag}** has been banned.`)
+
         let embed = new discord.MessageEmbed()
         .setColor('#a30000')
         .setAuthor(`${user.tag} was banned by ${message.author.tag}`, user.avatarURL({type: 'png'}))
@@ -37,7 +39,5 @@ module.exports = class Ban extends Command {
         .addField('Banned Reason', string)
         .setFooter('Banned user ID: ' + user.id);
         message.guild.channels.cache.get(config['Channels']['Log']).send({embed: embed})
-
-
     }
 };
