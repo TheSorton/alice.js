@@ -19,7 +19,9 @@ client.registry
 	.registerGroups([
 		['admin', 'Admin commands'],
 		['utility', 'Utility commands'],
-		['misc', "Commands that don't fit in a specific category"]
+		['misc', "Commands that don't fit in a specific category"],
+		['roles', "Role management commands"],
+		['image', "Image commands"]
 	])
 	.registerDefaultGroups()
 	.registerDefaultCommands()
