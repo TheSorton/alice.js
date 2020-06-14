@@ -19,6 +19,7 @@
   "homepage": "https://github.com/TheSorton/alice.js#readme",
   "dependencies": {
     "discord.js": "^12.2.0",
-    "discord.js-commando": "git+https://github.com/discordjs/Commando.git"
+    "discord.js-commando": "git+https://github.com/discordjs/Commando.git",
+    "request": "^2.88.2"
   }
 }
