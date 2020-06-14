@@ -13,6 +13,6 @@ module.exports = class MemberCount extends Command {
 		});
 	}
     run(message) {
-        return message.say(`This server has ${message.guild.memberCount} members.`);
+        return message.reply(`This server has ${message.guild.memberCount} members.`);
     }
 };

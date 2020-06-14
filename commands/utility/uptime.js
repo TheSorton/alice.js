@@ -25,6 +25,6 @@ module.exports = class Stats extends Command {
         
         var uptime = process.uptime();
 
-    message.say(`The bot has been running for ${format(uptime)}`)
+    message.reply(`The bot has been running for ${format(uptime)}`)
     }
 };
