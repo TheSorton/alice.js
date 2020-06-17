@@ -7,27 +7,48 @@
 
 const jw = require('jaro-winkler')
 
-const jaro_winkler = (message, args) => {
-    const max = (score_func, arr) => {
+// const jaro_winkler = (message, args) => {
+//     const max = (score_func, arr) => {
+//     let max_score = null;
+//     let max_item = null;
+//     arr.forEach((item, idx) => {
+//         const score = score_func(item);
+//         if (max_score == null || score > max_score) {
+//         max_score = score;
+//         max_item = idx;
+//         }
+//     });
+//     return max_item, max_score;
+//     }
+
+//     const name = args.join(' ')
+//     var userList = Array.from(message.guild.members.cache.mapValues(user => user.displayName))
+//     var result = max(x => jw(x, name, {caseSensitive: false}), userList.map(x => x[1]))
+//     var result = userList[result][1]
+//     return result;
+// }
+
+// exports.jaro_winkler = jaro_winkler;
+
+const max = (score_func, arr) => {
     let max_score = null;
     let max_item = null;
     arr.forEach((item, idx) => {
         const score = score_func(item);
         if (max_score == null || score > max_score) {
-        max_score = score;
-        max_item = idx;
+            max_score = score;
+            max_item = idx;
         }
     });
-    return max_item;
-    }
-
-    const name = args.join(' ')
-    console.log(name)
-    var userList = Array.from(message.guild.members.cache.mapValues(user => user.displayName))
-    var result = max(x => jw(x, name, {caseSensitive: false}), userList.map(x => x[1]))
-    console.log(result)
-    var result = userList[result][1]
-    console.log(result)
-    return result;
+    return { index: max_item, score: max_score };
 }
-exports.jaro_winkler = jaro_winkler;
+
+const best_match = (message, args) => {
+    const name = args.join(' ')
+    var userList = Array.from(message.guild.members.cache.mapValues(user => user.displayName))
+    var { index, score } = max(x => jw(x[1], name, {caseSensitive: false}), userList)
+    var username = userList[index][1]
+    return { username, score };
+}
+
+exports.best_match = best_match
