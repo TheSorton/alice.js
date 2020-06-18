@@ -33,14 +33,14 @@ module.exports = {
                         var emoji = defaultEmoji.get(emojiName)
                         if (!emoji) {
                             msg.channel.send("Emoji doesn't exist")
-                            .then(msg => msg.delete({ timeout: 1000000 }))
+                            .then(msg => msg.delete({ timeout: 5000 }))
                             return;
                         }
                     }
                     var role = msg.guild.roles.cache.find(role => role.name.toLowerCase() === roleName.toLowerCase());
                     if (!role) {
                         msg.channel.send("Role doesn't exist.")
-                        .then(msg => msg.delete({ timeout: 2000 }))
+                        .then(msg => msg.delete({ timeout: 5000 }))
                         return;
                     }
 
