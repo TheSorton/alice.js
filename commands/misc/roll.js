@@ -1,7 +1,8 @@
+const { helpers } = require('../../utils/helpers')
+
 module.exports = {
     run: async(client, message, args) => {
-        const rollDice = require('../../utils/dice')
-        message.reply(`You rolled ${rollDice()}`)
+        message.reply(`You rolled ${helpers.rollDice()}`)
     },
     name: 'roll',
     category: 'misc',
