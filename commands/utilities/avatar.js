@@ -1,5 +1,5 @@
 const { MessageEmbed } = require('discord.js');
-const { best_match } = require('../../utils/jaro-winkler')
+const { best_match } = require('../../utils/findUser')
 
 module.exports = {
     run: async(client, message, args) => {
