@@ -78,6 +78,12 @@ client.on('message', message => {
 	}
 });
 
+// Logging
+const log = walk('./log');
+for (const file of log) {
+    eval(fs.readFileSync(file)+'');
+}
+
 client.on('messageReactionAdd', async (reaction, user) => {
     if (user.bot) return;
     if (reaction.message.partial) {
