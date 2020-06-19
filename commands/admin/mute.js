@@ -11,5 +11,6 @@ module.exports = {
     name: 'mute',
     category: 'admin',
     aliases: ['silence', 'gag'],
-    description: 'Mutes a guild member.'
+    description: 'Mutes a guild member.',
+    usage: 'mute <@User>'
 }

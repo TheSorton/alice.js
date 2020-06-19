@@ -34,5 +34,5 @@ module.exports = {
     argsReq: false,
     aliases: ['av'],
     description: "Get's a user's avatar.",
-    example: "`avatar [user]`"
+    usage: "`avatar [user]`"
 }

@@ -6,5 +6,6 @@ module.exports = {
     category: 'utilities',
     args: true,
     aliases: ['repeat'],
-    description: 'Says what you want'
+    description: 'Says what you want',
+    usage: 'say <sentence>'
 }
