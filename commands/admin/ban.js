@@ -10,5 +10,5 @@ module.exports = {
     category: 'admin',
     aliases: [],
     description: 'Bans a guild member by their ID',
-    usage: 'ban <@User>'
+    usage: '`ban <@User>`'
 }

@@ -57,7 +57,7 @@ module.exports = {
   category: 'utilities',
   aliases: [],
   description: 'Help command',
-  usage: 'help [command]'
+  usage: '`help [command]`'
 }
     
     

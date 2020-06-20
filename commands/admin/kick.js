@@ -10,5 +10,5 @@ module.exports = {
     category: 'admin',
     aliases: [],
     description: 'Kicks a guild member.',
-    usage: 'kick <@User>'
+    usage: '`kick <@User>`'
 }

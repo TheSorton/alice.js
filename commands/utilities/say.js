@@ -7,5 +7,5 @@ module.exports = {
     args: true,
     aliases: ['repeat'],
     description: 'Says what you want',
-    usage: 'say <sentence>'
+    usage: '`say <sentence>`'
 }
