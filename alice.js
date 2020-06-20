@@ -18,6 +18,7 @@ const cachedMessageReaction = new Map();
 client.login(config.bot.token)
 client.on('ready', () => {
     console.log(`${client.user.tag} has sucessfully logged in. My ID is: ${client.user.id}.\nThe current time is ${helpers.time()}`)
+    client.user.setActivity(`${bot.config.prefix}help`, { type: 'CUSTOM_STATUS' });
     database.then(() => console.log("Connected to MongoDB")).catch(err => console.log(err));
 });
 
