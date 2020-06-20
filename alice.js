@@ -49,6 +49,7 @@ for (const file of commandFiles) {
 client.categories = fs.readdirSync("./commands/");
 
 client.on('message', message => {
+    if (message.author.bot) return
     let args = message.content.slice(prefix.length).split(/ +/);
     let cmdName = args.shift();
 
