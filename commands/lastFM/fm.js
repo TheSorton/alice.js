@@ -4,7 +4,6 @@ const config = require('../../config/config.json')
 const mongoose = require('mongoose')
 const lastFMModel = require("../../database/models/lastfm");
 const { DiscordAPIError, MessageEmbed } = require('discord.js');
-const db = mongoose.connect('mongodb://localhost:27017/lastfm', {useNewUrlParser: true, useUnifiedTopology: true});
 
 module.exports = {
     run: async(client, message, args) => {
@@ -18,6 +17,7 @@ module.exports = {
                     doc.username = args[1]
                     await doc.save();
                     await message.channel.send('Your username has been updated.')
+                    return;
                 }
             }
             else {
@@ -30,6 +30,7 @@ module.exports = {
                         .catch(err => console.log(err))
 
                 await message.channel.send("Your username has been set.")
+                return;
             }
         }
         else {
