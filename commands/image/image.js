@@ -15,24 +15,36 @@ module.exports = {
             else {
                 embedID = null
                 var body =  response.body;
+                console.log(body.items[0].image)
                 const embed = new MessageEmbed()
                 .setAuthor(`${message.author.tag} searched for ${args.join(' ')}`)
                 .setImage(body.items[0].link)
+                .setDescription(`[${body.items[0].title}](${body.items[0].image.contextLink})`)
+
                 message.channel.send({ embed })
                 .then(msg => msg.react('⬅️').then(msg.react('➡️').then(msg.react('❌'))).then(embedData.storeEmbed(msg)))
                 i = 0
+
                 client.on('messageReactionAdd', async (reaction, user) => {
                     if (user.bot) return;
                     if (embedData.isReactionOnImageCmdEmbed(reaction.message)) {
                         if (user.id === message.author.id)  {
                             if (reaction._emoji.name === '➡️') {
                                 i = i + 1;
-                                const updateEmbed = new MessageEmbed(embed).setImage(body.items[i].link)
+
+                                updateEmbed = new MessageEmbed(embed)
+                                .setImage(body.items[i].link)
+                                .setDescription(`[${body.items[i].title}](${body.items[i].image.contextLink})`)
+
                                 await reaction.message.edit(updateEmbed)
                             }
-                            else if (reaction._emoji.name === '⬅️') {
-                                if (i > 0) --i;
-                                const updateEmbed = new MessageEmbed(embed).setImage(body.items[i].link)
+                            else if (reaction._emoji.name === '⬅️' && i > 0) {
+                                --i;
+
+                                updateEmbed = new MessageEmbed(embed)
+                                .setImage(body.items[i].link)
+                                .setDescription(`[${body.items[i].title}](${body.items[i].image.contextLink})`)
+
                                 await reaction.message.edit(updateEmbed)
                             }
                             else if (reaction._emoji.name === '❌') {
@@ -44,18 +56,27 @@ module.exports = {
                         reaction.message.reactions.removeAll().catch(error => console.error('Failed to clear reactions: ', error));
                     }
                 })
+
                 client.on('messageReactionRemove', async (reaction, user) => {
                     if (user.bot) return;
                     if (embedData.isReactionOnImageCmdEmbed(reaction.message)) {
                         if (user.id === message.author.id)  {
                             if (reaction._emoji.name === '➡️') {
                                 i = i + 1;
-                                const updateEmbed = new MessageEmbed(embed).setImage(body.items[i].link)
+
+                                updateEmbed = new MessageEmbed(embed)
+                                .setImage(body.items[i].link)
+                                .setDescription(`[${body.items[i].title}](${body.items[i].image.contextLink})`)
+
                                 await reaction.message.edit(updateEmbed)
                             }
-                            else if (reaction._emoji.name === '⬅️') {
-                                if (i > 0) --i;
-                                const updateEmbed = new MessageEmbed(embed).setImage(body.items[i].link)
+                            else if (reaction._emoji.name === '⬅️' && i > 0) {
+                                --i;
+
+                                updateEmbed = new MessageEmbed(embed)
+                                .setImage(body.items[i].link)
+                                .setDescription(`[${body.items[i].title}](${body.items[i].image.contextLink})`)
+
                                 await reaction.message.edit(updateEmbed)
                             }
                             else if (reaction._emoji.name === '❌') {
