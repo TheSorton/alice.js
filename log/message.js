@@ -2,6 +2,7 @@
 client.on('messageDelete', async message => {
 	// ignore partials
 	if (message.partial) return
+	if (oldMessage.author.bot) return
 	if (!message.guild) return;
 	const fetchedLogs = await message.guild.fetchAuditLogs({
 		limit: 1,
@@ -42,6 +43,7 @@ client.on('messageDelete', async message => {
 client.on('messageUpdate', (oldMessage, newMessage) => {
 	// ignore partials
 	if (oldMessage.partial) return
+	if (oldMessage.author.bot) return
 	else {
 		// If it wasn't a bot, we should log this
 		// Let's create an embed for this
