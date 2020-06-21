@@ -40,7 +40,7 @@ client.on('messageDelete', async message => {
 // Edited message log
 client.on('messageUpdate', (oldMessage, newMessage) => {
 	// Was it a bot?
-	if (oldMessage.author.bot) return;
+	if (newMessage.author.bot) return;
 	else {
 		// If it wasn't a bot, we should log this
 		// Let's create an embed for this
