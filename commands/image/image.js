@@ -52,9 +52,6 @@ module.exports = {
                             }
                         }
                     }
-                    else {
-                        reaction.message.reactions.removeAll().catch(error => console.error('Failed to clear reactions: ', error));
-                    }
                 })
 
                 client.on('messageReactionRemove', async (reaction, user) => {
@@ -83,9 +80,6 @@ module.exports = {
                                 await reaction.message.delete()
                             }
                         }
-                    }
-                    else {
-                        reaction.message.reactions.removeAll().catch(error => console.error('Failed to clear reactions: ', error));
                     }
                 })
             }
