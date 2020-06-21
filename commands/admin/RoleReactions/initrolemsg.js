@@ -26,16 +26,21 @@ module.exports = {
                         return;
                     }
 
-                    var [ emojiName, roleName ] = msg.content.split(/,\s+/);
-                    if (!emojiName && !roleName) return;
-                    var emoji = msg.guild.emojis.cache.find(emoji => emoji.name.toLowerCase() === emojiName.toLowerCase());
+                    var [ emojiArg, roleName ] = msg.content.split(/,\s+/);
+                    if (!emojiArg && !roleName) return;
+                    var emoji = msg.guild.emojis.cache.find(emoji => emoji.name.toLowerCase() === emojiArg.toLowerCase());
+                    console.log(emoji)
                     if (!emoji) {
-                        var emoji = defaultEmoji.get(emojiName)
+                        var emoji = defaultEmoji.get(emojiArg)
+                        var emojiName = defaultEmoji.get(emojiArg)
                         if (!emoji) {
                             msg.channel.send("Emoji doesn't exist")
                             .then(msg => msg.delete({ timeout: 5000 }))
                             return;
                         }
+                    }
+                    else {
+                        var emojiName = emoji.name
                     }
                     var role = msg.guild.roles.cache.find(role => role.name.toLowerCase() === roleName.toLowerCase());
                     if (!role) {
@@ -45,8 +50,7 @@ module.exports = {
                     }
 
                     fetchedMsg.react(emoji)
-                    emojiRoleMap.set(emoji, role.id)
-                    message.delete()
+                    emojiRoleMap.set(`${emojiName}`, role.id)
                 });
 
                 collector.on('end', async (collected, reason) => {
@@ -58,7 +62,7 @@ module.exports = {
                     message.channel.send("The message you have specified has already been set up.")
                     return;
                 }
-                else{
+                else {
                     let dbMsgModel = new messageModel({
                         messageID: fetchedMsg.id,
                         emojiRoleMap: emojiRoleMap
