@@ -46,6 +46,7 @@ module.exports = {
 
                     fetchedMsg.react(emoji)
                     emojiRoleMap.set(emoji, role.id)
+                    message.delete()
                 });
 
                 collector.on('end', async (collected, reason) => {
@@ -63,7 +64,7 @@ module.exports = {
                         emojiRoleMap: emojiRoleMap
                     });
                     if (findMsgDoc = await messageModel.findOne({ messageID: fetchedMsg.id })) {
-                        dbMsgModel.push()
+                        dbMsgModel.save()
                         .catch(err => console.log(err))
                     }
                     
