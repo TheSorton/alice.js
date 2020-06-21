@@ -2,7 +2,7 @@
 client.on('messageDelete', async message => {
 	// ignore partials
 	if (message.partial) return
-	if (oldMessage.author.bot) return
+	if (message.author.bot) return
 	if (!message.guild) return;
 	const fetchedLogs = await message.guild.fetchAuditLogs({
 		limit: 1,
