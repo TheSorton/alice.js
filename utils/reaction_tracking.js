@@ -282,7 +282,7 @@ const is_message_tracked = (type, msg) => {
 register_message_type(MessageType.Image);
 register_message_type(MessageType.Role, validator=validators.base);
 
-exports = {
+exports.reaction_tracking = {
     // magic stuff
     MessageType,
     reaction_threshold,

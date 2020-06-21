@@ -3,7 +3,7 @@ const tiny = require('tiny-json-http')
 const config = require('../../config/config.json');
 const { MessageEmbed } = require('discord.js');
 const { track_message, is_message_tracked, MessageType }
-    = require('../../utils/reaction_tracking.js');
+    = require('../../utils/reaction_tracking.js').reaction_tracking;
 
 module.exports = {
     run: async(client, message, args) => {
