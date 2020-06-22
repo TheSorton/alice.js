@@ -10,8 +10,6 @@ client.commands = new discord.Collection();
 
 const database = require('./database/database')
 const messageModel = require('./database/models/message')
-const { MongooseDocument } = require('mongoose')
-const { emoji } = require('emoji-name-map')
 const cachedMessageReaction = new Map();
 
 
