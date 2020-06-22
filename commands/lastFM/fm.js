@@ -50,7 +50,6 @@ module.exports = {
             }
             else {
                 var body =  response.body;
-                console.log()
                 if (body.recenttracks.track[0]['@attr']) { 
                     var nowPlaying = true
                 }

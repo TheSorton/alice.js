@@ -30,7 +30,6 @@ module.exports = {
                     var [ emojiArg, roleName ] = msg.content.split(/,\s+/);
                     if (!emojiArg && !roleName) return;
                     var emoji = msg.guild.emojis.cache.find(emoji => emoji.name.toLowerCase() === emojiArg.toLowerCase());
-                    console.log(emoji)
                     if (!emoji) {
                         var emoji = defaultEmoji.get(emojiArg)
                         var emojiName = defaultEmoji.get(emojiArg)

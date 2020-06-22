@@ -16,7 +16,6 @@ module.exports = {
             else {
                 embedID = null
                 var body =  response.body;
-                console.log(body.items[0].image)
                 const embed = new MessageEmbed()
                 .setAuthor(`${message.author.tag} searched for ${args.join(' ')}`)
                 .setImage(body.items[0].link)

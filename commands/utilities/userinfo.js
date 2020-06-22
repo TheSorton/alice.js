@@ -20,7 +20,6 @@ module.exports = {
         
         const { _roles } = gMember
         const { name } = gMember.roles.cache
-        console.log(name)
 
         if (user.presence.activities[0]) { 
             if (user.presence.activities[0].state) { 
