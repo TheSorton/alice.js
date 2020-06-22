@@ -8,7 +8,6 @@ module.exports = {
     },
     name: 'kick',
     category: 'admin',
-    aliases: [],
     description: 'Kicks a guild member.',
     usage: '`kick <@User>`'
 }
