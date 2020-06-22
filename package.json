@@ -8,15 +8,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/TheSorton/alice.js.git"
+    "url": "git+https://github.com/TheSorton/alice.git"
   },
   "keywords": [],
   "author": "",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/TheSorton/alice.js/issues"
+    "url": "https://github.com/TheSorton/alice/issues"
   },
-  "homepage": "https://github.com/TheSorton/alice.js#readme",
+  "homepage": "https://github.com/TheSorton/alice#readme",
   "dependencies": {
     "ansi-colors": "^4.1.1",
     "common-tags": "^1.8.0",
