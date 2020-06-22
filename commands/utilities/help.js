@@ -16,6 +16,7 @@ module.exports = {
     function getAll(client, message) {
       const embed = new MessageEmbed()
           .setColor("RANDOM")
+          .setAuthor(`${config.bot.prefix}help [command] for more information on a command`)
   
       const commands = (category) => {
           return client.commands
