@@ -6,6 +6,7 @@ let msgCollectorFilter = (newMsg, oldMsg) => newMsg.author.id === oldMsg.author.
 
 module.exports = {
     run: async(client, message,args) => {
+        if(!message.member.permissions.has("MANAGE_GUILD")) return message.channel.send(`You can't do that.`)
         if (args.length !== 1) {
             let msg = message.reply("You've supplied too many arguments");
             await msg.delete(5000).catch(err => console.log(err));
