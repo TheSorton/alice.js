@@ -3,7 +3,7 @@ module.exports = {
         message.channel.send(args.join(' '))
     },
     name: 'say',
-    category: 'utilities',
+    category: 'misc',
     args: true,
     aliases: ['repeat'],
     description: 'Says what you want',
