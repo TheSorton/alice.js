@@ -48,6 +48,7 @@ client.categories = fs.readdirSync("./commands/");
 
 client.on('message', message => {
     if (message.author.bot) return
+    if (!message.content.startsWith(prefix)) return
     let args = message.content.slice(prefix.length).split(/ +/);
     let cmdName = args.shift();
 
