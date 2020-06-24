@@ -16,6 +16,7 @@ module.exports = {
             else {
                 embedID = null
                 var body =  response.body;
+                if (!body.items)  return message.reply("No results found.")
                 const embed = new MessageEmbed()
                 .setAuthor(`${message.author.tag} searched for ${args.join(' ')}`)
                 .setImage(body.items[0].link)
