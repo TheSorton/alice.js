@@ -66,7 +66,8 @@ const reaction_threshold = 1000*60*1; // 1 minute
 
 const MessageType = { // enum; values should all be of type string or int
     Image: '%image',
-    Role: '%role'
+    Role: '%role',
+    YouTube: '%yt'
 };
 
 const record_store = { // of type RecordStore
@@ -281,6 +282,7 @@ const is_message_tracked = (type, msg) => {
 
 register_message_type(MessageType.Image);
 register_message_type(MessageType.Role, validator=validators.base);
+register_message_type(MessageType.YouTube);
 
 exports.reaction_tracking = {
     // magic stuff
