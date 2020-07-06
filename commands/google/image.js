@@ -8,6 +8,12 @@ const { track_message, is_message_tracked, MessageType }
 module.exports = {
     run: async(client, message, args) => {
 
+        const filter = (reaction, user) => {
+            return ['⬅️', '➡️',  '❌' ].includes(reaction.emoji.name) && user.id === message.author.id;
+
+        };
+        collector = message.createReactionCollector(filter, { time: 60000 });
+
         let url = `https://www.googleapis.com/customsearch/v1?key=${config.google.apikey}&cx=${config.google.cx}&safe=high&searchType=image&q=${args.join(' ')}}`
         tiny.get({url}, function _get(err, response) {
             if (err) {
@@ -21,72 +27,65 @@ module.exports = {
                 .setAuthor(`${message.author.tag} searched for ${args.join(' ')}`)
                 .setImage(body.items[0].link)
                 .setDescription(`[${body.items[0].title}](${body.items[0].image.contextLink})`)
+                i=0
 
                 message.channel.send({ embed }).then(
                     msg => msg.react('⬅️').then(
                            msg.react('➡️').then(
-                           msg.react('❌').then(track_message(MessageType.Image, msg)))));
+                           msg.react('❌').then(
 
-                i = 0
-                client.on('messageReactionAdd', async (reaction, user) => {
-                    if (user.bot) return;
-                    if (is_message_tracked(MessageType.Image, reaction.message)) {
-                        if (user.id === message.author.id)  {
-                            if (reaction._emoji.name === '➡️') {
-                                i = i + 1;
+                msg.createReactionCollector(filter, { time: 15000, dispose: true })
+                .on('collect', reaction => {
+                    if (reaction.emoji.name === '⬅️' && i > 0) {
+                        --i;
+                        updateEmbed = new MessageEmbed(embed)
+                        .setImage(body.items[i].link)
+                        .setDescription(`[${body.items[i].title}](${body.items[i].image.contextLink})`)
 
-                                updateEmbed = new MessageEmbed(embed)
-                                .setImage(body.items[i].link)
-                                .setDescription(`[${body.items[i].title}](${body.items[i].image.contextLink})`)
+                        reaction.message.edit(updateEmbed)
+                    }
+                    else if (reaction.emoji.name === '➡️') {
+                        ++i;
+                        updateEmbed = new MessageEmbed(embed)
+                        .setImage(body.items[i].link)
+                        .setDescription(`[${body.items[i].title}](${body.items[i].image.contextLink})`)
 
-                                await reaction.message.edit(updateEmbed)
-                            }
-                            else if (reaction._emoji.name === '⬅️' && i > 0) {
-                                --i;
-
-                                updateEmbed = new MessageEmbed(embed)
-                                .setImage(body.items[i].link)
-                                .setDescription(`[${body.items[i].title}](${body.items[i].image.contextLink})`)
-
-                                await reaction.message.edit(updateEmbed)
-                            }
-                            else if (reaction._emoji.name === '❌') {
-                                await reaction.message.delete()
-                            }
-                        }
+                        reaction.message.edit(updateEmbed)
+                    }
+                    else if (reaction.emoji.name === '❌') {
+                        message.reply('you reacted.');
                     }
                 })
+                .on('remove', reaction => {
+                    if (reaction.emoji.name === '⬅️' && i > 0) {
+                        --i;
+                        updateEmbed = new MessageEmbed(embed)
+                        .setImage(body.items[i].link)
+                        .setDescription(`[${body.items[i].title}](${body.items[i].image.contextLink})`)
 
-                client.on('messageReactionRemove', async (reaction, user) => {
-                    if (user.bot) return;
-                    if (is_message_tracked(MessageType.Image, reaction.message)) {
-                        if (user.id === message.author.id)  {
-                            if (reaction._emoji.name === '➡️') {
-                                i = i + 1;
+                        reaction.message.edit(updateEmbed)
+                    }
+                    else if (reaction.emoji.name === '➡️') {
+                        ++i;
+                        updateEmbed = new MessageEmbed(embed)
+                        .setImage(body.items[i].link)
+                        .setDescription(`[${body.items[i].title}](${body.items[i].image.contextLink})`)
 
-                                updateEmbed = new MessageEmbed(embed)
-                                .setImage(body.items[i].link)
-                                .setDescription(`[${body.items[i].title}](${body.items[i].image.contextLink})`)
-
-                                await reaction.message.edit(updateEmbed)
-                            }
-                            else if (reaction._emoji.name === '⬅️' && i > 0) {
-                                --i;
-
-                                updateEmbed = new MessageEmbed(embed)
-                                .setImage(body.items[i].link)
-                                .setDescription(`[${body.items[i].title}](${body.items[i].image.contextLink})`)
-
-                                await reaction.message.edit(updateEmbed)
-                            }
-                            else if (reaction._emoji.name === '❌') {
-                                await reaction.message.delete()
-                            }
-                        }
+                        reaction.message.edit(updateEmbed)
+                    }
+                    else if (reaction.emoji.name === '❌') {
+                        message.reply('you reacted.');
                     }
                 })
-            }
-        });
+                .on('end', collected => {
+                    msg.reactions.removeAll()
+                })
+                ))))
+            }})
+
+
+
+
     },
     name: 'image',
     category: 'image',
