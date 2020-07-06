@@ -34,7 +34,7 @@ module.exports = {
                            msg.react('➡️').then(
                            msg.react('❌').then(
 
-                msg.createReactionCollector(filter, { time: 15000, dispose: true })
+                msg.createReactionCollector(filter, { time: 60000, dispose: true })
                 .on('collect', reaction => {
                     if (reaction.emoji.name === '⬅️' && i > 0) {
                         --i;
