@@ -53,7 +53,7 @@ module.exports = {
                         reaction.message.edit(updateEmbed)
                     }
                     else if (reaction.emoji.name === '❌') {
-                        message.reply('you reacted.');
+                        msg.delete();
                     }
                 })
                 .on('remove', reaction => {
@@ -74,7 +74,7 @@ module.exports = {
                         reaction.message.edit(updateEmbed)
                     }
                     else if (reaction.emoji.name === '❌') {
-                        message.reply('you reacted.');
+                        msg.delete();
                     }
                 })
                 .on('end', collected => {
@@ -83,14 +83,11 @@ module.exports = {
                 ))))
             }})
 
-
-
-
     },
     name: 'image',
     category: 'image',
     args: true,
-    aliases: ['google'],
+    aliases: ['google', 'img'],
     description: 'Searches Google for images',
     usage: '`image <search-term>`'
 }
