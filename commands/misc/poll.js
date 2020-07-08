@@ -1,7 +1,11 @@
 const { MessageEmbed } = require('discord.js');
-
+const config = require('../../config/config.json')
 module.exports = {
     run: async(client, message) => {
+        if (message.author.id != config.bot.owner) {
+             await message.channel.send("Disabled.")
+             return
+        }
         lock = false
         if (lock) await message.reply('No.');
         let args = message.content.slice(6).split(', ');
