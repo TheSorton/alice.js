@@ -78,10 +78,6 @@ client.on('message', message => {
 	}
 });
 
-client.on("error", (e) => console.error(e));
-client.on("warn", (e) => console.warn(e));
-
-
 // Logging
 const log = walk('./log');
 for (const file of log) {
