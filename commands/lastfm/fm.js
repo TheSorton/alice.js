@@ -65,8 +65,8 @@ module.exports = {
                 )
                 .setThumbnail(body.recenttracks.track[0].image[3]['#text'])
 
-                if (nowPlaying) embed.setAuthor(`${body.recenttracks['@attr'].user} • Now playing`, message.author.avatarURL({type: 'png', dynamic: true}), `https://last.fm/user/${username}`)
-                else embed.setAuthor(`${body.recenttracks['@attr'].user} • Last played`, message.author.avatarURL({type: 'png', dynamic: true}), `https://last.fm/user/${username}`)
+                if (nowPlaying) embed.setAuthor(`${body.recenttracks['@attr'].user} -•- Now playing`, message.author.avatarURL({type: 'png', dynamic: true}), `https://last.fm/user/${username}`)
+                else embed.setAuthor(`${body.recenttracks['@attr'].user} -•- Last played`, message.author.avatarURL({type: 'png', dynamic: true}), `https://last.fm/user/${username}`)
 
                 message.channel.send({embed: embed})
             }
