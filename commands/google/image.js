@@ -85,7 +85,7 @@ module.exports = {
 
     },
     name: 'image',
-    category: 'image',
+    category: 'google',
     args: true,
     aliases: ['google', 'img'],
     description: 'Searches Google for images',
