@@ -1,14 +1,26 @@
 
 
 // Guild Member joins
-client.on('guildMemberAdd', member => {
-    member.guild.systemChannel.send(`<@${member.id}> has joined.`)
+client.on('guildMemberAdd', async member => {
+    let guild = configModel.findOne({ guildID: member.guild.id });
+    if (guild) { 
+        let msgDoc = await configModel.findOne({ guildID: member.guild.id }); 
+        let { config } = msgDoc;
+        let welChan = config.welChan 
+        member.guild.channels.cache.find(x => x.id === welChan).send(`<@${member.id}> has joined.`)
+    }
 
 })
 
 // Guild Member leaves
-client.on('guildMemberRemove', member => {
-    member.guild.systemChannel.send(`**${member.user.tag}** has left.`)
+client.on('guildMemberRemove', async member => {
+    let guild = configModel.findOne({ guildID: member.guild.id });
+    if (guild) { 
+        let msgDoc = await configModel.findOne({ guildID: member.guild.id }); 
+        let { config } = msgDoc;
+        let welChan = config.welChan 
+        member.guild.channels.cache.find(x => x.id === welChan).send(`**${member.user.tag}** has left.`)
+    }
 })
 
 // Guild member changes something
