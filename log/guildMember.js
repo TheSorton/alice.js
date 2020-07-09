@@ -1,4 +1,5 @@
 
+
 // Guild Member joins
 client.on('guildMemberAdd', member => {
     member.guild.systemChannel.send(`<@${member.id}> has joined.`)
@@ -35,11 +36,9 @@ client.on('guildMemberUpdate', async (oldMember, newMember) => {
     if (oldMember.nickname !== newMember.nickname) {
         let guild = configModel.findOne({ guildID: newMember.guild.id });
         if (guild) { 
-            let gID = configModel.findOne({ guildID: guild });
-            if (gID) { 
-                newMember.guild.channels.cache.find(x => x.id === gID.config.logChan).send({embed: updateEmbed})
-            }
-        }
+            let { config } = await configModel.findOne({ guildID: newMember.guild.id });
+            let logChan = config.logChan 
+            newMember.guild.channels.cache.find(x => x.id === logChan).send({embed: updateEmbed})}
     }
     else {
         return
