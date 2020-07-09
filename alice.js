@@ -5,6 +5,8 @@ const fs = require('fs')
 const config = require('./config/config.json')
 const { helpers } = require('./utils/helpers')
 const { userRoles } = require('./utils/userRoles')
+const { getChannel } = require('./utils/getChannel')
+
 const prefix = config.bot.prefix
 client.commands = new discord.Collection();
 

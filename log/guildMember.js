@@ -1,3 +1,4 @@
+const { getChannel } = require("../utils/getChannel")
 
 
 // Guild Member joins
@@ -36,11 +37,8 @@ client.on('guildMemberUpdate', async (oldMember, newMember) => {
     if (oldMember.nickname !== newMember.nickname) {
         let guild = configModel.findOne({ guildID: newMember.guild.id });
         if (guild) { 
-        let msgDoc = await configModel.findOne({ guildID: newMember.guild.id }); 
-        let { config } = msgDoc;
-        let logChan = config.logChan 
-        console.log(config, logChan)
-        newMember.guild.channels.cache.find(x => x.id === logChan).send({embed: updateEmbed})}
+        let type = 'log'
+        newMember.guild.channels.cache.find(x => x.id === getChannel(guild, type)).send({embed: updateEmbed})}
     }
     else {
         return
