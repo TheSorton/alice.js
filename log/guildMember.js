@@ -35,8 +35,10 @@ client.on('guildMemberUpdate', async (oldMember, newMember) => {
         }
     if (oldMember.nickname !== newMember.nickname) {
         let guild = configModel.findOne({ guildID: newMember.guild.id });
-        let { config } = guild
+        if (guild) let msgDoc = await messageModel.findOne({ guildID: id });
+        let { config } = msgDoc;
         let logChan = config.logChan 
+        console.log(config, logChan)
         oldMember.guild.channels.cache.find(x => x.id === logChan).send({embed: updateEmbed})
     }
     else {
