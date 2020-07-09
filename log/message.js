@@ -36,11 +36,16 @@ client.on('messageDelete', async message => {
 	if (message.attachments.size > 0) {
 		deleteEmbed.addField('Attachment', message.attachments.first().proxyURL)
 	}
-	client.channels.cache.get(config.bot.log).send({embed: deleteEmbed});
+	let guild = configModel.findOne({ guildID: message.guild.id });
+	if (guild) { 
+		let { config } = await configModel.findOne({ guildID: message.guild.id }); ;
+		let logChan = config.logChan 
+		message.guild.channels.cache.find(x => x.id === logChan).send({embed: deleteEmbed});
+	}
 });
 
 // Edited message log
-client.on('messageUpdate', (oldMessage, newMessage) => {
+client.on('messageUpdate', async (oldMessage, newMessage) => {
 	// ignore partials
 	if (oldMessage.partial) return
 	if (oldMessage.author.bot) return
@@ -57,6 +62,11 @@ client.on('messageUpdate', (oldMessage, newMessage) => {
 		.setFooter(`Message ID: ${newMessage.id} | Author ID: ${newMessage.author.id}`)
 
 		// Embed done, so let's send it to our logging channel
-        client.channels.cache.get(config.bot.log).send({embed: editEmbed })
+        let guild = configModel.findOne({ guildID: newMessage.guild.id });
+        if (guild) { 
+            let { config } = await configModel.findOne({ guildID: newMessage.guild.id }); ;
+            let logChan = config.logChan 
+			newMessage.guild.channels.cache.find(x => x.id === logChan).send({embed: editEmbed});
+		}		
 	}
 });
