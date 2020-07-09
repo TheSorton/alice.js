@@ -35,7 +35,8 @@ client.on('guildMemberUpdate', async (oldMember, newMember) => {
         }
     if (oldMember.nickname !== newMember.nickname) {
         let guild = configModel.findOne({ guildID: newMember.guild.id });
-        if (guild) { let msgDoc = await messageModel.findOne({ guildID: newMember.guild.id }); 
+        if (guild) { 
+        let msgDoc = await configModel.findOne({ guildID: newMember.guild.id }); 
         let { config } = msgDoc;
         let logChan = config.logChan 
         console.log(config, logChan)
