@@ -1,6 +1,4 @@
-let guild = configModel.findOne({ guildID: member.guild.id });
-let { config } = guild
-let logChan = config.logChan
+
 
 // Guild Member joins
 client.on('guildMemberAdd', member => {
@@ -35,7 +33,10 @@ client.on('guildMemberUpdate', async (oldMember, newMember) => {
         else {
             updateEmbed.setAuthor(`${target.username} had their nickname changed by ${executor.username}`,target.avatarURL({type: 'png'}))
         }
-    if (oldMember.nickname !== newMember.nickname) { 
+    if (oldMember.nickname !== newMember.nickname) {
+        let guild = configModel.findOne({ guildID: newMember.guild.id });
+        let { config } = guild
+        let logChan = config.logChan 
         oldMember.guild.channels.cache.find(x => x.id === logChan).send({embed: updateEmbed})
     }
     else {
