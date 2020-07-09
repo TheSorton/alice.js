@@ -1,4 +1,4 @@
-const configModel = require("../../../database/models/server")
+const configModel = require("../../database/models/server")
 
 
 module.exports = {

@@ -11,7 +11,7 @@ client.commands = new discord.Collection();
 const database = require('./database/database')
 const messageModel = require('./database/models/message')
 const cachedMessageReaction = new Map();
-const configModel = require("../../../database/models/server")
+const configModel = require("./database/models/server")
 
 
 client.login(config.bot.token)
