@@ -11,6 +11,7 @@ client.commands = new discord.Collection();
 const database = require('./database/database')
 const messageModel = require('./database/models/message')
 const cachedMessageReaction = new Map();
+const configModel = require("../../../database/models/config")
 
 
 client.login(config.bot.token)
@@ -132,4 +133,25 @@ client.on('messageReactionRemove', async (reaction, user) => {
         userRoles.delUserRole(reaction, user, emojiRoleMap);
 
     }
+})
+
+client.on('guildCreate', async (guild) => {
+    let msgDoc = await configModel.findOne({ guildID: guild.id });
+    if (msgDoc) return
+    else {
+        let doc = await configModel
+        .findOne({ guildID: guild.id })
+        .catch(err => console.log(err));
+        if (doc) return
+        else {
+            let dbSvrModel = new configModel({
+                guildID: guild.id,
+            });
+        
+            dbSvrModel.save()
+                .catch(err => console.log(err))
+                .then(console.log(`${guild.name} has been added to the database.`))
+        }
+    }   
+
 })
