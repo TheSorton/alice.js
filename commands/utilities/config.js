@@ -51,6 +51,6 @@ module.exports = {
     category: 'utilities',
     args: true,
     description: 'Configure the bot',
-    usage: "```markdown\n# Server configuration\n# Flags (paramter is an ID)\n- '-log' – Sets the log channel\n- '-wel' – Sets the welcome/goodbye channel\n- '-mute' – Sets the muted role\n# Usage\nconfig <flag> <id>\n# Examples\nconfig -log 123123123123123\nconfig -wel 123123123123123\nconfig -mute 123123123123123"
+    usage: "```markdown\n# Server configuration\n# Flags (paramter is an ID)\n- '-log' – Sets the log channel\n- '-wel' – Sets the welcome/goodbye channel\n- '-mute' – Sets the muted role\n# Usage\nconfig <flag> <id>\n# Examples\nconfig -log 123123123123123\nconfig -wel 123123123123123\nconfig -mute 123123123123123```"
     
 }
