@@ -1,5 +1,3 @@
-const { getChannel } = require("../utils/getChannel")
-
 
 // Guild Member joins
 client.on('guildMemberAdd', member => {

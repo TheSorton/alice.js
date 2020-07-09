@@ -1,4 +1,4 @@
-const getConfig = (guild, type) => {
+const getConfig = async (guild, type) => {
     switch(type) {
         case 'log':
             let gID = configModel.findOne({ guildID: guild });
@@ -9,7 +9,6 @@ const getConfig = (guild, type) => {
             return logChan;
     }
         case 'wel':
-            let gID = configModel.findOne({ guildID: guild });
             if (gID) { 
                 let msgDoc = await configModel.findOne({ guildID: guild }); 
                 let { config } = msgDoc;
@@ -17,7 +16,6 @@ const getConfig = (guild, type) => {
                 return welChan;
             }
         case 'mute':
-            let gID = configModel.findOne({ guildID: guild });
             if (gID) { 
                 let msgDoc = await configModel.findOne({ guildID: guild }); 
                 let { config } = msgDoc;
@@ -28,4 +26,4 @@ const getConfig = (guild, type) => {
 }
 
 
-exports.getChannel = { getChannel };
+exports.getChannel = { getConfig };
