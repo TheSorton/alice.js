@@ -4,13 +4,13 @@ const configModel = require("../../database/models/server")
 module.exports = {
     run: async(client, message, args) => {
         if(!message.member.permissions.has("MANAGE_SERVER")) return message.channel.send(`You can't do that.`)
+        let doc = await configModel
+        .findOne({ guildID: message.guild.id })
+        .catch(err => console.log(err));
         switch(args[0]) {
             case '-log':
                 if (!args[1]) await message.reply("Please specify a channel by its ID")
                 else {
-                    let doc = await configModel
-                    .findOne({ guildID: message.guild.id })
-                    .catch(err => console.log(err));
                     if (doc) {
                             doc.config.logChan = args[1]
                             await doc.save();
@@ -20,9 +20,6 @@ module.exports = {
                 }
             case '-welcome':
                 if (!args[1]) await message.reply("Please specify a channel by its ID")
-                let doc = await configModel
-                .findOne({ guildID: message.guild.id })
-                .catch(err => console.log(err));
                 if (doc) {
                         doc.config.welChan = args[1]
                         await doc.save();
@@ -31,8 +28,7 @@ module.exports = {
                     }
             case '-mute':
                 if (!args[1]) await message.reply("Please specify a role by its ID")
-                .findOne({ guildID: message.guild.id })
-                .catch(err => console.log(err));
+
                 if (doc) {
                         doc.config.muteRole = args[1]
                         await doc.save();
