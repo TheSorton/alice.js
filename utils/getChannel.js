@@ -1,4 +1,4 @@
-const getConfig = async (guild, type) => {
+const getConfig = async (guild, type, configModel) => {
     switch(type) {
         case 'log':
             let gID = configModel.findOne({ guildID: guild });
