@@ -1,4 +1,4 @@
-let guild = await configModel.findOne({ guildID: member.guild.id });
+let guild = configModel.findOne({ guildID: member.guild.id });
 let { config } = guild
 let logChan = config.logChan
 
