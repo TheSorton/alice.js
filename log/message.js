@@ -37,10 +37,13 @@ client.on('messageDelete', async message => {
 		deleteEmbed.addField('Attachment', message.attachments.first().proxyURL)
 	}
 	let guild = configModel.findOne({ guildID: message.guild.id });
-	if (guild) { 
-		let { config } = await configModel.findOne({ guildID: message.guild.id }); ;
+	if (guild) {
+		let msgDoc = await configModel.findOne({ guildID: message.guild.id });
+		if (msgDoc) { 
+		let { config } = msgDoc
 		let logChan = config.logChan 
-		message.guild.channels.cache.find(x => x.id === logChan).send({embed: deleteEmbed});
+		message.guild.channels.cache.find(x => x.id === logChan).send({embed: deleteEmbed});}
+		else return
 	}
 });
 
@@ -63,10 +66,13 @@ client.on('messageUpdate', async (oldMessage, newMessage) => {
 
 		// Embed done, so let's send it to our logging channel
         let guild = configModel.findOne({ guildID: newMessage.guild.id });
-        if (guild) { 
-            let { config } = await configModel.findOne({ guildID: newMessage.guild.id }); ;
+        if (guild) {
+			let msgDoc = await configModel.findOne({ guildID: newMessage.guild.id });
+			if (msgDoc) {
+			let { config } = msgDoc;
             let logChan = config.logChan 
-			newMessage.guild.channels.cache.find(x => x.id === logChan).send({embed: editEmbed});
+			newMessage.guild.channels.cache.find(x => x.id === logChan).send({embed: editEmbed});}
+			else return
 		}		
 	}
 });
