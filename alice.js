@@ -146,7 +146,9 @@ client.on('guildCreate', async (guild) => {
         else {
             let dbSvrModel = new configModel({
                 guildID: guild.id,
-                config: {}
+                config: {
+                    guildName: guild.name
+                }
             });
         
             dbSvrModel.save()
