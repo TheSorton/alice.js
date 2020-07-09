@@ -18,6 +18,28 @@ module.exports = {
                             return;
                         }
                 }
+            case '-welcome':
+                if (!args[1]) await message.reply("Please specify a channel by its ID")
+                let doc = await configModel
+                .findOne({ guildID: message.guild.id })
+                .catch(err => console.log(err));
+                if (doc) {
+                        doc.config.welChan = args[1]
+                        await doc.save();
+                        await message.channel.send('Log channel has been set.')
+                        return;
+                    }
+            case '-mute':
+                if (!args[1]) await message.reply("Please specify a role by its ID")
+                .findOne({ guildID: message.guild.id })
+                .catch(err => console.log(err));
+                if (doc) {
+                        doc.config.muteRole = args[1]
+                        await doc.save();
+                        await message.channel.send('Mute role has been set.')
+                        return;
+                    }
+
             default: 
                 await message.channel.send("What did you want to configure...?")
 
@@ -29,6 +51,6 @@ module.exports = {
     category: 'utilities',
     args: true,
     description: 'Configure the bot',
-    usage: "`heh`"
+    usage: "```markdown\n# Server configuration\n# Flags (paramter is an ID)\n- '-log' – Sets the log channel\n- '-wel' – Sets the welcome/goodbye channel\n- '-mute' – Sets the muted role\n# Usage\nconfig <flag> <id>\n# Examples\nconfig -log 123123123123123\nconfig -wel 123123123123123\nconfig -mute 123123123123123"
     
 }
