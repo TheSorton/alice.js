@@ -77,7 +77,7 @@ module.exports = {
 
     },
     name: 'fm',
-    category: 'lastfm',
+    category: 'last.fm',
     args: true,
     aliases: ['np'],
     usage: '`fm [set] [username]`',
