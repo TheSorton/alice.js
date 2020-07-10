@@ -8,7 +8,7 @@ module.exports = {
     run: async(client, message, args) => {
         try {
             const file = fs.createWriteStream("cat.jpg");
-            const request = https.get("https://thiscatdoesnotexist.com", function(response) {
+            https.get("https://thiscatdoesnotexist.com", function(response) {
                 response.pipe(file);
                 message.channel.send({ files: ['cat.jpg'] })
             }).on('error', (e) => {
