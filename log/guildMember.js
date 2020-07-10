@@ -5,9 +5,11 @@ client.on('guildMemberAdd', async member => {
     let guild = configModel.findOne({ guildID: member.guild.id });
     if (guild) { 
         let msgDoc = await configModel.findOne({ guildID: member.guild.id }); 
+        if (msgDoc) {
         let { config } = msgDoc;
         let welChan = config.welChan 
-        member.guild.channels.cache.find(x => x.id === welChan).send(`<@${member.id}> has joined.`)
+        member.guild.channels.cache.find(x => x.id === welChan).send(`<@${member.id}> has joined.`)}
+        else return
     }
 
 })
@@ -17,9 +19,11 @@ client.on('guildMemberRemove', async member => {
     let guild = configModel.findOne({ guildID: member.guild.id });
     if (guild) { 
         let msgDoc = await configModel.findOne({ guildID: member.guild.id }); 
+        if (msgDoc) {
         let { config } = msgDoc;
         let welChan = config.welChan 
-        member.guild.channels.cache.find(x => x.id === welChan).send(`**${member.user.tag}** has left.`)
+        member.guild.channels.cache.find(x => x.id === welChan).send(`**${member.user.tag}** has left.`)}
+        else return
     }
 })
 
@@ -48,10 +52,13 @@ client.on('guildMemberUpdate', async (oldMember, newMember) => {
     if (oldMember.nickname !== newMember.nickname) {
         let guild = configModel.findOne({ guildID: newMember.guild.id });
         if (guild) { 
-            let msgDoc = await configModel.findOne({ guildID: newMember.guild.id }); 
+            let msgDoc = await configModel.findOne({ guildID: newMember.guild.id });
+            if (msgDoc) { 
             let { config } = msgDoc;
-            let logChan = config.logChan 
-        newMember.guild.channels.cache.find(x => x.id === logChan).send({embed: updateEmbed})}
+            let logChan = config.logChan
+            newMember.guild.channels.cache.find(x => x.id === logChan).send({embed: updateEmbed})}
+            else return 
+        }
     }
     else {
         return
