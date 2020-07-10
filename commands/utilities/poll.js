@@ -125,7 +125,7 @@ module.exports = {
 
     },
     name: 'poll',
-    category: 'misc',
+    category: 'utilities',
     description: 'Starts a poll.',
     usage: "`poll <option1>, <option2>, [option3], ...`"
 }

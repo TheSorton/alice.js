@@ -78,7 +78,7 @@ module.exports = {
   }
 },
   name: 'help',
-  category: 'utilities',
+  category: 'meta',
   description: 'Help command',
   usage: '`help [command]`'
 }

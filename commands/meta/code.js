@@ -1,16 +1,15 @@
-const { helpers } = require('../../utils/helpers')
-
 module.exports = {
     run: async(client, message, args) => {
         try {
-            message.reply(`You rolled ${helpers.rollDice()}`)
+            message.channel.send('https://github.com/thesorton/alice')
         }
         catch (error) {
             await message.channel.send(`\`${error}\`\n You shouldn't see this. Contact alan ✨#1989`)
         }
     },
-    name: 'roll',
-    category: 'misc',
-    aliases: ['dice'],
-    description: 'Rolls a dice.'
+    name: 'code',
+    category: 'meta',
+    args: false,
+    aliases: ['src', 'source'],
+    description: 'Links the source code'
 }

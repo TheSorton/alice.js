@@ -9,7 +9,7 @@ module.exports = {
         }
     },
     name: 'say',
-    category: 'misc',
+    category: 'utilities',
     args: true,
     aliases: ['repeat'],
     description: 'Says what you want',

@@ -16,7 +16,7 @@ module.exports = {
         }
     },
     name: 'pick',
-    category: 'misc',
+    category: 'fun',
     args: true,
     description: 'Picks from given choices',
     usage: '`pick <choice1>, <choice2>, [choice3], [choice4], ...`'

@@ -23,7 +23,7 @@ module.exports = {
         }
     },
     name: 'ask',
-    category: 'misc',
+    category: 'fun',
     args: true,
     aliases:['ball', '8ball'],
     description: 'Ask alice something',

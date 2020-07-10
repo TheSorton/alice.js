@@ -21,7 +21,7 @@ module.exports = {
         }
     },
     name: 'botinfo',
-    category: 'utilities',
+    category: 'meta',
     argsReq: false,
     aliases: ['botstats'],
     description: "Get's the bot's stats."
