@@ -5,10 +5,10 @@ module.exports = {
         try {
             let args = message.content.slice(6).split(', ');
             let out = args.map(arg => arg.replace(/@everyone/g, 'everyone'));
-            if (!out[1]) {
-                await message.reply(`Too few arguments. You need at least two. Use ${config.bot.prefix}help pick`)
-                return;
-            }
+
+            if (!out[0]) return await message.reply('what did you want me to pick?')
+            if (!out[1]) return await message.reply('too few arguments. You need at least two.');
+
             await message.reply(`I pick **${out[Math.floor(Math.random() * out.length)]}**`)
         }
         catch (error) {
