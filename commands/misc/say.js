@@ -1,7 +1,8 @@
 module.exports = {
     run: async(client, message, args) => {
         try {
-            await message.channel.send(args.join(' '))
+            let out = args.map(arg => arg.replace(/@everyone/g, 'everyone'));
+            await message.channel.send(out.join(' '))
         }
         catch (error) {
             await message.channel.send(`\`${error}\`\n You shouldn't see this. Contact alan ✨#1989`)
