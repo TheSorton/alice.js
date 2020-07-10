@@ -8,6 +8,7 @@ const { track_message, is_message_tracked, MessageType }
 module.exports = {
     run: async(client, message, args) => {
         try {
+            if (!args[0]) return await message.reply('a search term is required.')
 
             const filter = (reaction, user) => {
                 return ['⬅️', '➡️',  '❌' ].includes(reaction.emoji.name) && user.id === message.author.id;
