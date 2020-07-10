@@ -19,7 +19,7 @@ module.exports = {
                                 return;
                             }
                     }
-                case '-welcome':
+                case '-wel':
                     if (!args[1]) await message.reply("Please specify a channel by its ID")
                     if (doc) {
                             doc.config.welChan = args[1]
