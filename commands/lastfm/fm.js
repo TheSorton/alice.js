@@ -70,6 +70,8 @@ module.exports = {
                     if (nowPlaying) embed.setAuthor(`${body.recenttracks['@attr'].user} — Now playing`, message.author.avatarURL({type: 'png', dynamic: true}), `https://last.fm/user/${username}`)
                     else embed.setAuthor(`${body.recenttracks['@attr'].user} – Last played`, message.author.avatarURL({type: 'png', dynamic: true}), `https://last.fm/user/${username}`)
 
+                    embed.setFooter(`${body.recenttracks['@attr'].user} has ${body.recenttracks['@attr'].total} scrobbles.`)
+
                     message.channel.send({embed: embed})
                 })
             }).on('error', (e) => {
