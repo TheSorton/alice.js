@@ -4,7 +4,7 @@ const configModel = require("../../database/models/server")
 module.exports = {
     run: async(client, message, args) => {
         try {
-            if(!message.member.permissions.has("MANAGE_SERVER")) return message.channel.send(`You can't do that.`)
+            if(!message.member.permissions.has("MANAGE_GUILD")) return message.channel.send(`You can't do that.`)
             let doc = await configModel
             .findOne({ guildID: message.guild.id })
             .catch(err => console.log(err));
