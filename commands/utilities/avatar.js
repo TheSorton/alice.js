@@ -36,6 +36,7 @@ module.exports = {
         }
     },
     name: 'avatar',
+    category: 'utilities',
     argsReq: false,
     aliases: ['av'],
     description: "Get's a user's avatar.",
