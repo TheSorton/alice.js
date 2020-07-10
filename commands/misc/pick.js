@@ -4,11 +4,12 @@ module.exports = {
     run: async(client, message) => {
         try {
             let args = message.content.slice(6).split(', ');
-            if (!args[1]) {
+            let out = args.map(arg => arg.replace(/@everyone/g, 'everyone'));
+            if (!out[1]) {
                 await message.reply(`Too few arguments. You need at least two. Use ${config.bot.prefix}help pick`)
                 return;
             }
-            await message.reply(`I pick **${args[Math.floor(Math.random() * args.length)]}**`)
+            await message.reply(`I pick **${out[Math.floor(Math.random() * out.length)]}**`)
         }
         catch (error) {
             await message.channel.send(`\`${error}\`\n You shouldn't see this. Contact alan ✨#1989`)
