@@ -2,9 +2,9 @@ const format = (seconds) => {
     function pad(s){
     return (s < 10 ? '0' : '') + s;
     }
-    var hours = Math.floor(seconds / (60*60));
-    var minutes = Math.floor(seconds % (60*60) / 60);
-    var seconds = Math.floor(seconds % 60);
+    var hours = Math.floor(seconds / (60*60)).toFixed(2);
+    var minutes = Math.floor(seconds % (60*60) / 60).toFixed(2);
+    var seconds = Math.floor(seconds % 60).toFixed(2);
 
     return pad(hours) + ':' + pad(minutes) + ':' + pad(seconds);
 }
