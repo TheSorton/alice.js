@@ -2,8 +2,11 @@ module.exports = {
     run: async(client, message, args) => {
     try {
         if(!message.member.permissions.has("KICK_MEMBERS")) return message.channel.send(`You can't do that.`);
-        const gMember = message.guild.member(message.mentions.users.first());
-        await gMember.kick();
+        if (message.mentions.users.first()) {
+            const gMember = message.guild.member(message.mentions.users.first());
+            await gMember.kick();
+        }
+        else return message.reply('ping a user.')
     }
     catch(error) {
         console.log(error)
