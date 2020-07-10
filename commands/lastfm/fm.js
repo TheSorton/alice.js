@@ -1,4 +1,4 @@
-const tiny = require('tiny-json-http')
+const http = require('http')
 const config = require('../../config/config.json')
 
 const mongoose = require('mongoose')
@@ -44,12 +44,14 @@ module.exports = {
 
             let url = `http://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=${username}&api_key=${config.lastfm.apikey}&format=json`
 
-            tiny.get({url}, function _get(err, response) {
-                if (err) {
-                    console.log(err)
-                }
-                else {
-                    var body =  response.body;
+            http.get(url, function(response) {
+                var body = '';
+
+                response.on('data', function(chunk) {
+                    body += chunk;
+                });
+                response.on('end', function() {
+                    body =  JSON.parse(body);
                     if (!body.recenttracks.track[0]) return message.reply("No scrobbles.")
                     if (body.recenttracks.track[0]['@attr']) { 
                         var nowPlaying = true
@@ -69,8 +71,11 @@ module.exports = {
                     else embed.setAuthor(`${body.recenttracks['@attr'].user} – Last played`, message.author.avatarURL({type: 'png', dynamic: true}), `https://last.fm/user/${username}`)
 
                     message.channel.send({embed: embed})
-                }
-            });}
+                })
+            }).on('error', (e) => {
+                message.channel.send(`\`${e}\`\n You shouldn't see this. Contact alan ✨#1989.`)
+            })
+        }
         catch (error) {
             await message.channel.send(`\`${error}\`\n You shouldn't see this. Contact alan ✨#1989`)
         }

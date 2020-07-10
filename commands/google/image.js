@@ -1,5 +1,5 @@
 // Google Images
-const tiny = require('tiny-json-http')
+const https = require('https')
 const config = require('../../config/config.json');
 const { MessageEmbed } = require('discord.js');
 const { track_message, is_message_tracked, MessageType }
@@ -16,13 +16,15 @@ module.exports = {
             collector = message.createReactionCollector(filter, { time: 60000 });
 
             let url = `https://www.googleapis.com/customsearch/v1?key=${config.google.apikey}&cx=${config.google.cx}&safe=high&searchType=image&q=${args.join(' ')}}`
-            tiny.get({url}, function _get(err, response) {
-                if (err) {
-                    console.log(err)
-                }
-                else {
-                    embedID = null
-                    var body =  response.body;
+            https.get(url, function(response) {
+                var body = '';
+
+                response.on('data', function(chunk) {
+                    body += chunk;
+                });
+            
+                response.on('end', function() {
+                    body = JSON.parse(body);
                     if (!body.items)  return message.reply("No results found.")
                     const embed = new MessageEmbed()
                     .setAuthor(`${message.author.tag} searched for ${args.join(' ')}`)
@@ -82,7 +84,11 @@ module.exports = {
                         msg.reactions.removeAll()
                     })
                     ))))
-                }})}
+                })
+            }).on('error', (e) => {
+                message.channel.send(`\`${e}\`\n You shouldn't see this. Contact alan ✨#1989.`)
+            })
+        }
         catch (error) {
             await message.channel.send(`\`${error}\`\n You shouldn't see this. Contact alan ✨#1989`)
         }

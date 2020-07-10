@@ -1,5 +1,5 @@
 // Google Images
-const tiny = require('tiny-json-http')
+const https = require('https')
 const config = require('../../config/config.json');
 const { MessageEmbed } = require('discord.js');
 const { track_message, is_message_tracked, MessageType }
@@ -15,15 +15,16 @@ module.exports = {
             };
 
             let url = `https://www.googleapis.com/youtube/v3/search?part=snippet&order=relevance&type=video&videoDefinition=high&key=${config.google.apikey}&q=${args.join(' ')}`
-            tiny.get({url}, function _get(err, response) {
-                if (err) {
-                    console.log(err)
-                }
-                else {
-                    embedID = null
-                    var body =  response.body;
+            https.get(url, function(response) {
+                var body = '';
+
+                response.on('data', function(chunk){
+                    body += chunk;
+                });
+                response.on('end', function() {
+                    body = JSON.parse(body);
                     if (!body.items)  return message.reply("No results found.")
-                    link = `https://youtu.be/${body.items[0].id.videoId}`
+                    let link = `https://youtu.be/${body.items[0].id.videoId}`
                     i = 0
 
                     message.channel.send(link).then(
@@ -65,7 +66,12 @@ module.exports = {
                         msg.reactions.removeAll()
                     })
                     ))))
-                }})}
+                })
+
+            }).on('error', (e) => {
+                message.channel.send(`\`${e}\`\n You shouldn't see this. Contact alan ✨#1989.`)
+            })
+        }
         catch (error) {
             await message.channel.send(`\`${error}\`\n You shouldn't see this. Contact alan ✨#1989`)
         }
