@@ -27,7 +27,7 @@ module.exports = {
                 { name: 'Boost level_ _', value: message.guild.premiumTier, inline: true },
                 { name: '# of boosters', value: message.guild.premiumSubscriptionCount, inline: true },
                 { name: '# of members', value: message.guild.memberCount, inline: true},
-                { name: `Roles [${message.guild.roles.cache.keyArray().length - 1}]`, value: roles }
+                { name: `Roles [${message.guild.roles.cache.keyArray().length}]`, value: roles }
 
             )
             await message.channel.send(embed)
