@@ -5,14 +5,26 @@ module.exports = {
     try {
         if(!message.member.permissions.has("KICK_MEMBERS")) return message.channel.send(`You can't do that.`);
         const gMember = message.guild.member(message.mentions.users.first());
-        let guild = configModel.findOne({ guildID: message.guild.id });
-        if (guild) { 
-            let { config } = await configModel.findOne({ guildID: message.guild.id }); ;
-            let muteRole = config.muteRole 
-            const role = message.guild.roles.cache.find(x => x.id === muteRole);
-            await gMember.roles.remove(role);
-            await message.reply(`**${gMember.user.tag}** has been unmuted.`)
+        if (message.mentions.users.first()) {
+
+            let guild = configModel.findOne({ guildID: message.guild.id });
+            if (guild) { 
+
+                let { config } = await configModel.findOne({ guildID: message.guild.id });
+                if (!config) await message.reply("this guild is not in my database.")
+
+                let muteRole = config.muteRole 
+                if (muteRole) {
+                    const role = message.guild.roles.cache.find(x => x.id === muteRole);
+                    if (!role) return message.reply('role not found')
+
+                    await gMember.roles.remove(role);
+                    await message.reply(`**${gMember.user.tag}** has been unmuted.`)
+                }
+                else return message.reply('configure the mute role.')
+            }
         }
+        else return message.reply('ping someone.')
     }
     catch(error) {
         console.log(error)
