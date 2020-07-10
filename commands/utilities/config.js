@@ -10,7 +10,7 @@ module.exports = {
             .catch(err => console.log(err));
             switch(args[0]) {
                 case '-log':
-                    if (!args[1]) await message.reply("Please specify a channel by its ID")
+                    if (!args[1]) { await message.reply("Please specify a channel by its ID"); return }
                     else {
                         if (doc) {
                                 doc.config.logChan = args[1]
@@ -18,24 +18,26 @@ module.exports = {
                                 await message.channel.send('Log channel has been set.')
                                 return;
                             }
+                        else return await message.reply("the guild is not in my database")
                     }
                 case '-wel':
-                    if (!args[1]) await message.reply("Please specify a channel by its ID")
+                    if (!args[1]) { await message.reply("Please specify a channel by its ID"); return }
                     if (doc) {
                             doc.config.welChan = args[1]
                             await doc.save();
                             await message.channel.send('Log channel has been set.')
                             return;
                         }
+                    else return await message.reply("the guild is not in my database")
                 case '-mute':
-                    if (!args[1]) await message.reply("Please specify a role by its ID")
-
+                    if (!args[1]) { await message.reply("Please specify a role by its ID"); return }
                     if (doc) {
                             doc.config.muteRole = args[1]
                             await doc.save();
                             await message.channel.send('Mute role has been set.')
                             return;
                         }
+                    else return await message.reply("the guild is not in my database")
 
                 default: 
                     await message.channel.send("What did you want to configure...?")
