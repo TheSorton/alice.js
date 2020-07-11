@@ -2,11 +2,11 @@
 //
 // Functions for sanitizing user input.
 
-const clear_everyone = str => str.replace(/@+everyone/g, 'everyone');
-const clear_here = str => str.replace(/@+here/g, 'here');
+const clean_everyone = str => str.replace(/@+everyone/g, 'everyone');
+const clean_here = str => str.replace(/@+here/g, 'here');
 
 exports.sanitize = {
-    clear_everyone,
-    clear_here
+    clean_everyone,
+    clean_here
 };
 

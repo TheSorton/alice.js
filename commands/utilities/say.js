@@ -1,5 +1,5 @@
 
-const { clean_everyone, clean_here } = require("../../utils/sanitize.js");
+const { clean_everyone, clean_here } = require("../../utils/sanitize.js").sanitize;
 
 module.exports = {
     run: async(client, message, args) => {
