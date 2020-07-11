@@ -52,6 +52,7 @@ client.on('messageUpdate', async (oldMessage, newMessage) => {
 	// ignore partials
 	if (oldMessage.partial) return
 	if (oldMessage.author.bot) return
+	if (oldMessage.content === newMessage.content) return
 	else {
 		// If it wasn't a bot, we should log this
 		// Let's create an embed for this
