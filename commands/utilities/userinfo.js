@@ -4,10 +4,10 @@ const { MessageEmbed } = require('discord.js');
 module.exports = {
     run: async(client, message, args) => {
         try {
-            const { username, score } = best_match(message, args)
 
-            if (!args[0]) { 
-                var gMember = await message.guild.member(message.guild.members.cache.find(user => user.displayName === message.author.username))
+            if (!args[0]) {
+                let username = await message.author.fetch().then(x => { return x.username})
+                var gMember = await message.guild.member(message.guild.members.cache.find(user => user.user.username === username))
                 var user = gMember.user
             }
             else if (message.mentions.users.first()) {
@@ -15,6 +15,7 @@ module.exports = {
                 var user = gMember.user
             }
             else {
+                var { username, score } = best_match(message, args)
                 var gMember = await message.guild.member(message.guild.members.cache.find(user => user.displayName === username))
                 var user = gMember.user
             }
@@ -24,8 +25,15 @@ module.exports = {
 
             if (user.presence.activities[0]) { 
                 if (user.presence.activities[0].state) { 
-                    var fieldNameStatus = 'Custom Status'
-                    var status = user.presence.activities[0].state }
+                    if (user.presence.activities[0].name === 'Spotify') {
+                        var fieldNameStatus = 'Spotify'
+                        var status = `**${user.presence.activities[0].details}** by **${user.presence.activities[0].state}**`
+                    }
+                    else {
+                        var fieldNameStatus = 'Custom Status'
+                        var status = user.presence.activities[0].state 
+                    }}
+                
                 else {
                     var fieldNameStatus = 'Activity' 
                     var status = user.presence.activities[0] 
