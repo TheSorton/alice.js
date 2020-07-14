@@ -62,7 +62,8 @@ module.exports = {
                 });
                 response.on('end', function() {
                     body =  JSON.parse(body);
-                    if (!body.recenttracks.track[0]) return message.reply("No scrobbles.")
+                    if (!body.recenttracks) return message.reply('user not found.')
+                    if (!body.recenttracks.track[0]) return message.reply("no scrobbles.")
                     if (body.recenttracks.track[0]['@attr']) { 
                         var nowPlaying = true
                     }
