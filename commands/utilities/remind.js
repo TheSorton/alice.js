@@ -1,6 +1,7 @@
+var schedule = require('node-schedule');
 
 const { clean_everyone, clean_here } = require("../../utils/sanitize.js").sanitize;
-var schedule = require('node-schedule');
+const RemindModel = require("../../database/models/reminder");
 
 module.exports = {
     run: async (client, message, args) => {
@@ -15,32 +16,46 @@ module.exports = {
             }
 
             var x = [];
-            console.log(objs.length)
             for (let i = 0; i < objs.length; i++) {
                 if (objs[i].unit === 'day') {
                     x.push(Number(objs[i].number) * 86400000)
-                    console.log(objs[i].unit)
                 }
                 else if (objs[i].unit === 'hour') {
                     x.push(Number(objs[i].number) * 3600000)
-                    console.log(objs[i].unit)
                 }
                 else if (objs[i].unit === 'minute') {
                     x.push(Number(objs[i].number) * 60000)
-                    console.log(objs[i].unit)
                 }
                 else if (objs[i].unit === 'second') {
                     x.push(Number(objs[i].number) * 1000)
-                    console.log(objs[i].unit)
                 }
             }
 
             const timeout = x.reduce((a, b) => a + b, 0)
-            const schedule = Math.floor(Date.now()) + timeout
-            const datetime = new Date(schedule)
+            const date = Math.floor(Date.now())
+            const ttr = Math.floor(Date.now()) + timeout
+            const datetime = new Date(ttr)
 
-            schedule.scheduleJob(schedule, function(){
-                message.reply(reminder)
+            let dbRemindModel = new RemindModel({
+                userID: message.author.id,
+                reminder: {
+                    text: reminder,
+                    created: date,
+                    ttr: datetime
+                }
+            });
+
+            dbRemindModel.save()
+            .catch(err => console.log(err))
+            .then(message.reply('reminder has been set.'))
+
+
+            schedule.scheduleJob(datetime, function(){
+                message.author.send(reminder)
+
+                RemindModel.findOneAndDelete({
+                    userID: message.author.id,
+                }).catch(err => console.log(err))
             });
         }
         catch (error) {
