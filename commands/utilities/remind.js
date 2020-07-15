@@ -36,7 +36,6 @@ module.exports = {
                     return await message.reply("you didn't tell me when you wanted to be reminded.")
                 }
             }
-            console.log(time)
 
             const timeout = x.reduce((a, b) => a + b, 0)
             const date = Math.floor(Date.now())
