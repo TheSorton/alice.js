@@ -20,7 +20,6 @@ module.exports = {
                 }
                 else {
                     var gMember = message.guild.member(message.guild.members.cache.find(user => user.displayName === username))
-                    embed.setFooter(`The person returned has about a ${Intl.NumberFormat('en-US', { style: 'percent' }).format(score)} chance of being correct.`)
                 }
                 if (gMember) {
                     embed.setAuthor(`${gMember.user.username}'s avatar.`, gMember.user.avatarURL({format: 'png', dynamic: 'true' }))
