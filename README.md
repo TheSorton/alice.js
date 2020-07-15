@@ -30,7 +30,7 @@ The config.json file is in the following format:
     }
 }
 ```
-These keys are not required, and the commands will give an error if they're left out.
+These keys are not required, but the commands will give an error if they're left out.
 
 ### Starting
 After your config.json has been created, make sure to have at least node.js v12 and npm installed as these are required. Run `npm install` to install the bots dependencies. 
