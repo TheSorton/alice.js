@@ -1,5 +1,5 @@
-const { MessageEmbed } = require("discord.js")
 const { helpers } = require('../../utils/helpers')
+const { MessageEmbed } = require("discord.js")
 
 module.exports = {
     run: async(client, message, args) => {
@@ -30,6 +30,9 @@ module.exports = {
                 { name: `Roles [${message.guild.roles.cache.keyArray().length}]`, value: roles }
 
             )
+            if (message.guild.banner) {
+            embed.setImage(message.guild.bannerURL({format: 'png', size: 2048}))
+            }
             await message.channel.send(embed)
 
         }
