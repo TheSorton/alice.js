@@ -54,9 +54,9 @@ module.exports = {
     function getCMD(client, message, input) {
         const embed = new MessageEmbed()
     
-        const cmd = client.commands.get(input.toLowerCase()) || client.commands.get(client.aliases.get(input.toLowerCase()));
+        const cmd = client.commands.get(input.toLowerCase());
         
-        let info = `No information found for command **${input.toLowerCase()}**`;
+        let info = `No information found for command **${input.toLowerCase()}**. However, it may be an alias. Use ${prefix}help to see available commands.`;
     
         if (!cmd) {
             return message.channel.send(embed.setColor("RANDOM").setDescription(info));
