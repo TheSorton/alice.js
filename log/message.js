@@ -1,9 +1,12 @@
 // Deleted message log
 client.on('messageDelete', async message => {
-	// ignore partials
+	// ignore things that may cause an error
 	if (message.partial) return
 	if (message.author.bot) return
 	if (!message.guild) return;
+	if (!message.cleanContent) return
+	if (!message.channel) return
+
 	const fetchedLogs = await message.guild.fetchAuditLogs({
 		limit: 1,
 		type: 'MESSAGE_DELETE',
@@ -41,7 +44,8 @@ client.on('messageDelete', async message => {
 		let msgDoc = await configModel.findOne({ guildID: message.guild.id });
 		if (msgDoc) { 
 		let { config } = msgDoc
-		let logChan = config.logChan 
+		let logChan = config.logChan
+		if (!message.guild.channels.cache.find(x => x.id === logChan)) return
 		message.guild.channels.cache.find(x => x.id === logChan).send({embed: deleteEmbed});}
 		else return
 	}
@@ -53,6 +57,10 @@ client.on('messageUpdate', async (oldMessage, newMessage) => {
 	if (oldMessage.partial) return
 	if (oldMessage.author.bot) return
 	if (oldMessage.content === newMessage.content) return
+	if (!oldMessage.content) return
+	if (!newMessage.content) return
+
+
 	else {
 		// If it wasn't a bot, we should log this
 		// Let's create an embed for this
@@ -71,7 +79,8 @@ client.on('messageUpdate', async (oldMessage, newMessage) => {
 			let msgDoc = await configModel.findOne({ guildID: newMessage.guild.id });
 			if (msgDoc) {
 			let { config } = msgDoc;
-            let logChan = config.logChan 
+			let logChan = config.logChan 
+			if (!newMessage.guild.channels.cache.find(x => x.id === logChan)) return
 			newMessage.guild.channels.cache.find(x => x.id === logChan).send({embed: editEmbed});}
 			else return
 		}		
