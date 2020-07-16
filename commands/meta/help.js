@@ -56,7 +56,7 @@ module.exports = {
     
         const cmd = client.commands.get(input.toLowerCase());
         
-        let info = `No information found for command **${input.toLowerCase()}**. However, it may be an alias. Use ${prefix}help to see available commands.`;
+        let info = `No information found for command **${input.toLowerCase()}**. However, it may be an alias. Use **${prefix}help** to see available commands.`;
     
         if (!cmd) {
             return message.channel.send(embed.setColor("RANDOM").setDescription(info));
