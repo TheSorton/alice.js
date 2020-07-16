@@ -34,7 +34,7 @@ module.exports = {
                 res.on("end", function () {
                     i=0
                     var body = JSON.parse(Buffer.concat(chunks));
-
+                    if (!body.list[0]) return message.reply('word not found.')
                     const embed = new MessageEmbed()
                     .setAuthor(body.list[0].word, icon, body.list[0].permalink)
                     .setDescription(body.list[0].definition + '\n\n' + '**Example**\n' + body.list[0].example )
