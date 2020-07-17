@@ -31,7 +31,7 @@ module.exports = {
             }
         }
         catch (error) {
-            await message.channel.send(`\`${error}\`\n You shouldn't see this. Contact alan ✨#1989`)
+            await message.channel.send(`\`${error}\``)
         }
     },
     name: 'avatar',

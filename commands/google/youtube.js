@@ -70,11 +70,11 @@ module.exports = {
                 })
 
             }).on('error', (e) => {
-                message.channel.send(`\`${e}\`\n You shouldn't see this. Contact alan ✨#1989.`)
+                message.channel.send(`\`${e}\``)
             })
         }
         catch (error) {
-            await message.channel.send(`\`${error}\`\n You shouldn't see this. Contact alan ✨#1989`)
+            await message.channel.send(`\`${error}\``)
         }
 
     },
