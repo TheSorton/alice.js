@@ -10,10 +10,11 @@ module.exports = {
             .setThumbnail(client.user.avatarURL({format: 'png', dynamic: 'true', size: 2048 }))
             .addFields(
                 {name: "Version", value: pkgInfo.version},
-                {name: "Node.JS Version", value: process.version},
-                {name: "Discord.JS Version", value: pkgInfo.dependencies["discord.js"].replace('^', 'v'), inline: false},
+                {name: "Node.js Version", value: process.version},
+                {name: "Discord.js Version", value: pkgInfo.dependencies["discord.js"].replace('^', 'v'), inline: false},
                 {name: "Uptime", value: helpers.format(process.uptime())}
             )
+            .setFooter('https://alice.nyx.moe/')
             await message.channel.send({ embed: embed})
         }
         catch (error) {
