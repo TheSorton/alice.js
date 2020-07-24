@@ -22,6 +22,20 @@ client.on('ready', () => {
     database.then(() => console.log("Connected to MongoDB")).catch(err => console.log(err));
 });
 
+client.on('ready', () => {
+    remindModel.find().lean().exec(function (err, docs) {
+        for (let i = 0; i < docs.length; i++) {
+            schedule.scheduleJob(docs[i].reminder.ttr, function(){
+                client.users.cache.get(docs[i].userID).send(docs[i].reminder.text)
+                
+                remindModel.findOneAndDelete({
+                    userID: docs[i].userID,
+                }).catch(err => console.log(err))
+            });
+        }    
+    });
+})
+
 const walk = (dir) => {
     let results = [];
     const list = fs.readdirSync(dir);
