@@ -14,6 +14,8 @@ const messageModel = require('./database/models/message')
 const cachedMessageReaction = new Map();
 const configModel = require("./database/models/server")
 
+const remindModel = require("./database/models/reminder");
+var reminders = new Map();
 
 client.login(config.bot.token)
 client.on('ready', () => {

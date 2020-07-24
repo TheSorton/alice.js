@@ -7,9 +7,9 @@ module.exports = {
     run: async (client, message, args) => {
         try {
 
-            var args = Array.from(args.join(' ').split(" in "))
+            var args = Array.from(args.join(' ').split(" | "))
             var reminder = args[0]
-            var time = Array.from(args.slice(1).join(' ').split(' in ').join(' ').split(', ').join(' ').split(' '))
+            var time = Array.from(args.slice(1).join(' ').split(' | ').join(' ').split(', ').join(' ').split(' '))
 
             if (!reminder) return await message.reply("you didn't tell me what you wanted to be reminded of.")
 
@@ -73,5 +73,5 @@ module.exports = {
     args: true,
     aliases: ['remindme'],
     description: 'Reminds you of something',
-    usage: '```markdown\n# Remind command\n# Usage\nremind <reminder> in <time>\n# Time\nTime is in the format x day(s), y hour(s), z minutes(s), s second(s)```'
+    usage: '```markdown\n# Remind command\n# Usage\nremind <reminder> | <time>\n# Time\nTime is in the format x day(s), y hour(s), z minutes(s), s second(s)```'
 }
