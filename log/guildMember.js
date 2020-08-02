@@ -34,7 +34,8 @@ client.on('guildMemberUpdate', async (oldMember, newMember) => {
 		type: 'MEMBER_UPDATE',
     });
         const memberUpdateLog = fetchedLogs.entries.first();
-        const { executor, target } = memberUpdateLog;
+        if (memberUpdateLog) const { executor, target } = memberUpdateLog;
+        else return;
 
         var updateEmbed = new discord.MessageEmbed()
         .setColor('#363636')
