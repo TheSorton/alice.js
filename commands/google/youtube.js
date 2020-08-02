@@ -24,6 +24,7 @@ module.exports = {
                 });
                 response.on('end', function() {
                     body = JSON.parse(body);
+                    size = body.items.length - 1
                     if (!body.items)  return message.reply("No results found.")
                     let link = `https://youtu.be/${body.items[0].id.videoId}`
                     i = 0
@@ -34,13 +35,12 @@ module.exports = {
                             msg.react('❌').then(
                     msg.createReactionCollector(filter, { time: 60000, dispose: true })
                     .on('collect', reaction => {
-                        if (reaction.emoji.name === '⬅️' && 4 >= i > 0) {
+                        if (reaction.emoji.name === '⬅️' && i > 0) {
                             --i;
                             reaction.message.edit(`https://youtu.be/${body.items[i].id.videoId}`)
                         }
-                        else if (reaction.emoji.name === '➡️' && i <= 4) {
+                        else if (reaction.emoji.name === '➡️' && i < size) {
                             ++i;
-                            if (i === 5) return
                             reaction.message.edit(`https://youtu.be/${body.items[i].id.videoId}`)
 
                         }
@@ -49,14 +49,13 @@ module.exports = {
                         }
                     })
                     .on('remove', reaction => {
-                        if (reaction.emoji.name === '⬅️' && 4 >= i > 0) {
+                        if (reaction.emoji.name === '⬅️' &&  i > 0) {
                             --i;
                             reaction.message.edit(`https://youtu.be/${body.items[i].id.videoId}`)
 
                         }
-                        else if (reaction.emoji.name === '➡️' && i < 5) {
+                        else if (reaction.emoji.name === '➡️' && i < size) {
                             ++i;
-                            if (i === 5) return
                             reaction.message.edit(`https://youtu.be/${body.items[i].id.videoId}`)
                         }
                         else if (reaction.emoji.name === '❌') {
