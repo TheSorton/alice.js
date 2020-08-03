@@ -25,6 +25,7 @@ module.exports = {
             
                 response.on('end', function() {
                     body = JSON.parse(body);
+                    size = body.items.length - 1 
                     if (!body.items)  return message.reply("No results found.")
                     const embed = new MessageEmbed()
                     .setAuthor(`${message.author.tag} searched for ${args.join(' ')}`)
@@ -47,7 +48,7 @@ module.exports = {
 
                             reaction.message.edit(updateEmbed)
                         }
-                        else if (reaction.emoji.name === '➡️') {
+                        else if (reaction.emoji.name === '➡️' && i < size) {
                             ++i;
                             updateEmbed = new MessageEmbed(embed)
                             .setImage(body.items[i].link)
@@ -68,7 +69,7 @@ module.exports = {
 
                             reaction.message.edit(updateEmbed)
                         }
-                        else if (reaction.emoji.name === '➡️') {
+                        else if (reaction.emoji.name === '➡️' && i < size) {
                             ++i;
                             updateEmbed = new MessageEmbed(embed)
                             .setImage(body.items[i].link)
