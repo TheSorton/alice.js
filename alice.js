@@ -1,6 +1,7 @@
 const discord = require('discord.js')
 const client = new discord.Client({ partials: ['MESSAGE', 'REACTION']})
 const fs = require('fs')
+const schedule = require('node-schedule')
 
 const config = require('./config/config.json')
 const { helpers } = require('./utils/helpers')
