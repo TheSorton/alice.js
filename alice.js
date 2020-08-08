@@ -20,160 +20,160 @@ var reminders = new Map();
 
 client.login(config.bot.token)
 client.on('ready', () => {
-    console.log(`${client.user.tag} has sucessfully logged in. My ID is: ${client.user.id}.\nThe current time is ${helpers.time()}`)
-    client.user.setActivity(`${config.bot.prefix}help`, { type: 'PLAYING' });
-    database.then(() => console.log("Connected to MongoDB")).catch(err => console.log(err));
+  console.log(`${client.user.tag} has sucessfully logged in. My ID is: ${client.user.id}.\nThe current time is ${helpers.time()}`)
+  client.user.setActivity(`${config.bot.prefix}help`, { type: 'PLAYING' });
+  database.then(() => console.log("Connected to MongoDB")).catch(err => console.log(err));
 });
 
 client.on('ready', () => {
-    remindModel.find().lean().exec(function (err, docs) {
-        for (let i = 0; i < docs.length; i++) {
-            schedule.scheduleJob(docs[i].reminder.ttr, function(){
-                client.users.cache.get(docs[i].userID).send(docs[i].reminder.text)
-                
-                remindModel.findOneAndDelete({
-                    userID: docs[i].userID,
-                }).catch(err => console.log(err))
-            });
-        }    
-    });
+  remindModel.find().lean().exec(function (err, docs) {
+    for (let i = 0; i < docs.length; i++) {
+      schedule.scheduleJob(docs[i].reminder.ttr, function(){
+        client.users.cache.get(docs[i].userID).send(docs[i].reminder.text)
+
+        remindModel.findOneAndDelete({
+          userID: docs[i].userID,
+        }).catch(err => console.log(err))
+      });
+    }    
+  });
 })
 
 const walk = (dir) => {
-    let results = [];
-    const list = fs.readdirSync(dir);
-    list.forEach(function(file) {
-        file = dir + '/' + file;
-        file_type = file.split(".").pop();
-        file_name = file.split(/(\\|\/)/g).pop();
-        const stat = fs.statSync(file);
-        if (stat && stat.isDirectory()) { 
-            results = results.concat(walk(file));
-        } 
-        else { 
-            if (file_type == "js") results.push(file);
-        }
-    });
-    return results;
+  let results = [];
+  const list = fs.readdirSync(dir);
+  list.forEach(function(file) {
+    file = dir + '/' + file;
+    file_type = file.split(".").pop();
+    file_name = file.split(/(\\|\/)/g).pop();
+    const stat = fs.statSync(file);
+    if (stat && stat.isDirectory()) { 
+      results = results.concat(walk(file));
+    } 
+    else { 
+      if (file_type == "js") results.push(file);
+    }
+  });
+  return results;
 }
 
 const commandFiles = walk('./commands');
 
 for (const file of commandFiles) {
-    const command = require(`${file}`);
-	client.commands.set(command.name, command);
+  const command = require(`${file}`);
+  client.commands.set(command.name, command);
 }
 
 client.categories = fs.readdirSync("./commands/");
 
 client.on('message', message => {
-    if (message.author.bot) return
-    if (!message.content.startsWith(prefix)) return
-    let args = message.content.slice(prefix.length).split(/ +/);
-    let cmdName = args.shift();
+  if (message.author.bot) return
+  if (!message.content.startsWith(prefix)) return
+  let args = message.content.slice(prefix.length).split(/ +/);
+  let cmdName = args.shift();
 
-	const command = client.commands.get(cmdName)
-		|| client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(cmdName));
+  const command = client.commands.get(cmdName)
+    || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(cmdName));
 
-    if (!command) return;
-    
-	if (command.guildOnly && message.channel.type !== 'text') {
-		return message.reply('I can\'t execute that command inside DMs!');
+  if (!command) return;
+
+  if (command.guildOnly && message.channel.type !== 'text') {
+    return message.reply('I can\'t execute that command inside DMs!');
+  }
+
+  if (command.argsReq && !args.length) {
+    let reply = `You didn't provide any arguments, ${message.author}!`;
+    if (command.usage) {
+      reply += `\nThe proper usage would be: \`${prefix}${command.name} ${command.usage}\``;
     }
-    
-	if (command.argsReq && !args.length) {
-		let reply = `You didn't provide any arguments, ${message.author}!`;
-		if (command.usage) {
-			reply += `\nThe proper usage would be: \`${prefix}${command.name} ${command.usage}\``;
-        }
-        
-		return message.channel.send(reply);
-	}
-	try {
-		command.run(client, message, args);
-    } 
-    catch (error) {
-		console.error(error);
-		message.reply('there was an error trying to execute that command!');
-	}
+
+    return message.channel.send(reply);
+  }
+  try {
+    command.run(client, message, args);
+  } 
+  catch (error) {
+    console.error(error);
+    message.reply('there was an error trying to execute that command!');
+  }
 });
 
 // Logging
 const log = walk('./log');
 for (const file of log) {
-    eval(fs.readFileSync(file)+'');
+  eval(fs.readFileSync(file)+'');
 }
 
 client.on('messageReactionAdd', async (reaction, user) => {
-    if (user.bot) return;
-    if (reaction.message.partial) {
-        await reaction.message.fetch();
-        let { id } = reaction.message
-        try {
-            let msgDoc = await messageModel.findOne({ messageID: id });
-            if (msgDoc) {
-                cachedMessageReaction.set(id, msgDoc.emojiRoleMap);
-                let { emojiRoleMap } = msgDoc;
-                userRoles.addUserRole(reaction, user, emojiRoleMap);
-
-            }
-        }
-        catch(err) {
-            console.log(err);
-        }
-    }
-    else {
-        let emojiRoleMap = cachedMessageReaction.get(reaction.message.id);
+  if (user.bot) return;
+  if (reaction.message.partial) {
+    await reaction.message.fetch();
+    let { id } = reaction.message
+    try {
+      let msgDoc = await messageModel.findOne({ messageID: id });
+      if (msgDoc) {
+        cachedMessageReaction.set(id, msgDoc.emojiRoleMap);
+        let { emojiRoleMap } = msgDoc;
         userRoles.addUserRole(reaction, user, emojiRoleMap);
 
+      }
     }
+    catch(err) {
+      console.log(err);
+    }
+  }
+  else {
+    let emojiRoleMap = cachedMessageReaction.get(reaction.message.id);
+    userRoles.addUserRole(reaction, user, emojiRoleMap);
+
+  }
 });
 
 client.on('messageReactionRemove', async (reaction, user) => {
-    if (user.bot) return;
-    if (reaction.message.partial) {
-        await reaction.message.fetch();
-        let { id } = reaction.message
-        try {
-            let msgDoc = await messageModel.findOne({ messageID: id });
-            if (msgDoc) {
-                cachedMessageReaction.set(id, msgDoc.emojiRoleMap);
-                let { emojiRoleMap } = msgDoc;
-                userRoles.delUserRole(reaction, user, emojiRoleMap);
-
-            }
-        }
-        catch(err) {
-            console.log(err);
-        }
-    }
-    else {
-        let emojiRoleMap = cachedMessageReaction.get(reaction.message.id);
+  if (user.bot) return;
+  if (reaction.message.partial) {
+    await reaction.message.fetch();
+    let { id } = reaction.message
+    try {
+      let msgDoc = await messageModel.findOne({ messageID: id });
+      if (msgDoc) {
+        cachedMessageReaction.set(id, msgDoc.emojiRoleMap);
+        let { emojiRoleMap } = msgDoc;
         userRoles.delUserRole(reaction, user, emojiRoleMap);
 
+      }
     }
+    catch(err) {
+      console.log(err);
+    }
+  }
+  else {
+    let emojiRoleMap = cachedMessageReaction.get(reaction.message.id);
+    userRoles.delUserRole(reaction, user, emojiRoleMap);
+
+  }
 })
 
 client.on('guildCreate', async (guild) => {
-    let msgDoc = await configModel.findOne({ guildID: guild.id });
-    if (msgDoc) return
+  let msgDoc = await configModel.findOne({ guildID: guild.id });
+  if (msgDoc) return
+  else {
+    let doc = await configModel
+      .findOne({ guildID: guild.id })
+      .catch(err => console.log(err));
+    if (doc) return
     else {
-        let doc = await configModel
-        .findOne({ guildID: guild.id })
-        .catch(err => console.log(err));
-        if (doc) return
-        else {
-            let dbSvrModel = new configModel({
-                guildID: guild.id,
-                config: {
-                    guildName: guild.name
-                }
-            });
-        
-            dbSvrModel.save()
-                .catch(err => console.log(err))
-                .then(console.log(`${guild.name} has been added to the database.`))
+      let dbSvrModel = new configModel({
+        guildID: guild.id,
+        config: {
+          guildName: guild.name
         }
-    }   
+      });
+
+      dbSvrModel.save()
+        .catch(err => console.log(err))
+        .then(console.log(`${guild.name} has been added to the database.`))
+    }
+  }   
 
 })

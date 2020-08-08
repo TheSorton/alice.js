@@ -8,24 +8,24 @@
 const jw = require('jaro-winkler')
 
 const max = (score_func, arr) => {
-    let max_score = null;
-    let max_item = null;
-    arr.forEach((item, idx) => {
-        const score = score_func(item);
-        if (max_score == null || score > max_score) {
-            max_score = score;
-            max_item = idx;
-        }
-    });
-    return { index: max_item, score: max_score };
+  let max_score = null;
+  let max_item = null;
+  arr.forEach((item, idx) => {
+    const score = score_func(item);
+    if (max_score == null || score > max_score) {
+      max_score = score;
+      max_item = idx;
+    }
+  });
+  return { index: max_item, score: max_score };
 }
 
 const best_match = (message, args) => {
-    const name = args.join(' ')
-    var userList = Array.from(message.guild.members.cache.mapValues(user => user.displayName))
-    var { index, score } = max(x => jw(x[1], name, {caseSensitive: false}), userList)
-    var username = userList[index][1]
-    return { username, score };
+  const name = args.join(' ')
+  var userList = Array.from(message.guild.members.cache.mapValues(user => user.displayName))
+  var { index, score } = max(x => jw(x[1], name, {caseSensitive: false}), userList)
+  var username = userList[index][1]
+  return { username, score };
 }
 
 exports.best_match = best_match

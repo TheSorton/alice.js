@@ -65,14 +65,14 @@
 const reaction_threshold = 1000*60*1; // 1 minute
 
 const MessageType = { // enum; values should all be of type string or int
-    Image: '%image',
-    Role: '%role',
-    YouTube: '%yt'
+  Image: '%image',
+  Role: '%role',
+  YouTube: '%yt'
 };
 
 const record_store = { // of type RecordStore
-    channels:   {},
-    validators: {}
+  channels:   {},
+  validators: {}
 }
 
 //--------------------------------------------------------------------------
@@ -116,11 +116,11 @@ const record_store = { // of type RecordStore
 /// @param extra_data  Extra data for custom TrackRecords
 /// @returns  A new TrackRecord
 const TrackRecord = (type, msg, extra_data={}) => ({
-    type,
-    message_id: msg.id,
-    channel_id: msg.channel.id,
-    timestamp:  msg.createdTimestamp,
-    ...extra_data
+  type,
+  message_id: msg.id,
+  channel_id: msg.channel.id,
+  timestamp:  msg.createdTimestamp,
+  ...extra_data
 });
 
 /// MessageValidator :: (string, PreMessageValidator) -> MessageValidator
@@ -131,8 +131,8 @@ const TrackRecord = (type, msg, extra_data={}) => ({
 /// @param fn    Validation code. WARN: `fn.type` field is mutated
 /// @returns  A new MessageValidator
 const MessageValidator = (type, fn) => {
-    fn.type = type;
-    return fn;
+  fn.type = type;
+  return fn;
 };
 
 //--------------------------------------------------------------------------
@@ -142,10 +142,10 @@ const MessageValidator = (type, fn) => {
 ///
 /// Stores a TrackRecord into the global RecordStore.
 const store_record = record => {
-    const nu = {};
-    nu[record.type] = record;
-    const old = record_store.channels[record.channel_id];
-    record_store.channels[record.channel_id] = Object.assign({}, old, nu);
+  const nu = {};
+  nu[record.type] = record;
+  const old = record_store.channels[record.channel_id];
+  record_store.channels[record.channel_id] = Object.assign({}, old, nu);
 };
 
 /// Retrieve Record :: (string, Snowflake) -> Maybe<TrackRecord>
@@ -153,30 +153,30 @@ const store_record = record => {
 /// Retrieves the record corresponding with a particular message from the
 /// global RecordStore.
 const retrieve_record = (type, msg) => {
-    if (msg.channel.id in record_store.channels) {
-        const c = record_store.channels[msg.channel.id];
-        if (type in c) {
-            return c[type];
-        }
+  if (msg.channel.id in record_store.channels) {
+    const c = record_store.channels[msg.channel.id];
+    if (type in c) {
+      return c[type];
     }
-    return null;
+  }
+  return null;
 };
 
 /// Store Validator :: MessageValidator -> Void
 ///
 /// Stores a MessageValidator into the global RecordStore.
 const store_validator = validator => {
-    record_store.validators[validator.type] = validator;
+  record_store.validators[validator.type] = validator;
 };
 
 /// Retrieve Message Validator :: string -> Maybe<MessageValidator>
 ///
 /// Retrieves the MessageValidator associated with a particular MessageType.
 const retrieve_validator = type => {
-    if (type in record_store.validators) {
-        return record_store.validators[type];
-    }
-    return null;
+  if (type in record_store.validators) {
+    return record_store.validators[type];
+  }
+  return null;
 };
 
 //--------------------------------------------------------------------------
@@ -186,23 +186,23 @@ const retrieve_validator = type => {
 /// This object contains many built-in PreMessageValidators. These can be
 /// combined to create more specific PreMessageValidators.
 const validators = {
-    /// This MessageValidator always returns valid (true) 
-    true: (record, msg) => true,
-    /// This MessageValidator returns valid if the message is the one
-    /// recorded in `record`
-    base: (record, msg) => msg.id === record.message_id,
-    /// This field is curried. Its type is number -> PreMessageValidator.
-    ///
-    /// This validator ensures that not too much time has passed since the
-    /// message recorded was created.
-    ///
-    /// @param threshold  Amount of time in milliseconds that the validator
-    ///                   is active for.
-    /// @returns  PreMessageValidator which checks the above condition
-    within_time: threshold => (record, msg) => {
-        const now = new Date().getTime();
-        return Math.abs(record.timestamp - now) < threshold;
-    }
+  /// This MessageValidator always returns valid (true) 
+  true: (record, msg) => true,
+  /// This MessageValidator returns valid if the message is the one
+  /// recorded in `record`
+  base: (record, msg) => msg.id === record.message_id,
+  /// This field is curried. Its type is number -> PreMessageValidator.
+  ///
+  /// This validator ensures that not too much time has passed since the
+  /// message recorded was created.
+  ///
+  /// @param threshold  Amount of time in milliseconds that the validator
+  ///                   is active for.
+  /// @returns  PreMessageValidator which checks the above condition
+  within_time: threshold => (record, msg) => {
+    const now = new Date().getTime();
+    return Math.abs(record.timestamp - now) < threshold;
+  }
 };
 
 /// Combine Validators :: Array<PreMessageValidator> -> PreMessageValidator
@@ -216,20 +216,20 @@ const validators = {
 /// @param validators  List of PreMessageValidator's
 /// @returns  PreMessageValidator as per above
 const combine_validators = validators => {
-    // if only one validator is given, just handle that sensibly
-    if (!Array.isArray(validators)) return validators;
-    
-    return (record, msg) => {
-        for (let i = 0; i < validators.length; ++i) {
-            if (!validators[i](record, msg)) return false;
-        }
-        return true;
-    };
+  // if only one validator is given, just handle that sensibly
+  if (!Array.isArray(validators)) return validators;
+
+  return (record, msg) => {
+    for (let i = 0; i < validators.length; ++i) {
+      if (!validators[i](record, msg)) return false;
+    }
+    return true;
+  };
 };
 
 const default_validator = combine_validators([
-    validators.base,
-    validators.within_time(reaction_threshold)
+  validators.base,
+  validators.within_time(reaction_threshold)
 ]);
 
 /// Register Message Type
@@ -244,7 +244,7 @@ const default_validator = combine_validators([
 /// @param validator  PreMessageValidator or an array of such to combine
 ///                   for checking messages of `type`.
 const register_message_type = (type, validator=default_validator) => {
-    store_validator(MessageValidator(type, combine_validators(validator)));
+  store_validator(MessageValidator(type, combine_validators(validator)));
 };
 
 //--------------------------------------------------------------------------
@@ -257,9 +257,9 @@ const register_message_type = (type, validator=default_validator) => {
 /// @param type  Type of Message for `msg`
 /// @param msg   Message to track reactions for
 const track_message = (type, msg) => {
-    const rec = TrackRecord(type, msg);
-    store_record(rec);
-    return rec;
+  const rec = TrackRecord(type, msg);
+  store_record(rec);
+  return rec;
 };
 
 /// Is Message Tracked? :: (string, Message) -> Boolean
@@ -270,11 +270,11 @@ const track_message = (type, msg) => {
 /// @param msg   Message to check tracking on
 /// @returns  True if message is tracked with that `type`. False o.w.
 const is_message_tracked = (type, msg) => {
-    const rec = retrieve_record(type, msg);
-    const valid = retrieve_validator(type);
-    if (!rec) return false;
-    if (!valid) return false;
-    return valid(rec, msg);
+  const rec = retrieve_record(type, msg);
+  const valid = retrieve_validator(type);
+  if (!rec) return false;
+  if (!valid) return false;
+  return valid(rec, msg);
 };
 
 //--------------------------------------------------------------------------
@@ -285,16 +285,16 @@ register_message_type(MessageType.Role, validator=validators.base);
 register_message_type(MessageType.YouTube);
 
 exports.reaction_tracking = {
-    // magic stuff
-    MessageType,
-    reaction_threshold,
-    // normal use stuff
-    track_message,
-    is_message_tracked,
-    // setup stuff
-    register_message_type,
-    default_validator,
-    combine_validators,
-    validators
+  // magic stuff
+  MessageType,
+  reaction_threshold,
+  // normal use stuff
+  track_message,
+  is_message_tracked,
+  // setup stuff
+  register_message_type,
+  default_validator,
+  combine_validators,
+  validators
 };
 
