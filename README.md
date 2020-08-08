@@ -9,7 +9,7 @@ It'll say it requires admininstrator for the same reason one may `chmod 777` som
 ## Self-hosting
 If you're planning on self-hosting the bot, there are some considerations to make:
 - The bot uses [mongodb](https://www.mongodb.com/) for databases. (The database is called `main`)
-- It uses several (free) API keys for different calls. This will be explained later.
+- It uses several (free) API keys for different calls.
 - It requires a config.json in `./config/`. (You will need to create this directory.)
 
 ### config.json
@@ -30,7 +30,7 @@ The config.json file is in the following format:
     }
 }
 ```
-These keys are not required, and the commands will give an error if they're left out.
+These keys are not required, but the commands will give an error if they're left out.
 
 ### Starting
 After your config.json has been created, make sure to have at least node.js v12 and npm installed as these are required. Run `npm install` to install the bots dependencies. 
