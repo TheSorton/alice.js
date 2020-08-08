@@ -49,7 +49,8 @@ const walk = (dir) => {
         const stat = fs.statSync(file);
         if (stat && stat.isDirectory()) { 
             results = results.concat(walk(file));
-        } else { 
+        } 
+        else { 
             if (file_type == "js") results.push(file);
         }
     });

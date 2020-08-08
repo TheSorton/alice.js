@@ -1,5 +1,6 @@
 const { best_match } = require('../../utils/findUser');
 const { MessageEmbed } = require('discord.js');
+const { helpers } = require('../../utils/helpers')
 
 module.exports = {
     run: async(client, message, args) => {
@@ -20,9 +21,6 @@ module.exports = {
                 var user = gMember.user
             }
             
-            const { _roles } = gMember
-            const { name } = gMember.roles.cache
-
             if (user.presence.activities[0]) { 
                 if (user.presence.activities[0].state) { 
                     if (user.presence.activities[0].name === 'Spotify') {
@@ -44,6 +42,17 @@ module.exports = {
                 var status = "None" 
             }
 
+            roleArray = [];
+            gMember.roles.cache.keyArray().forEach(x => {
+                roleArray.push(message.guild.roles.resolve(x))
+                roleArray.sort(helpers.sortArrayBy('rawPosition', true, parseInt))
+                if (roleArray.length > 15) {
+                    roles = `${roleArray.slice(0, 15).join(' ')} ...`
+                }
+                else {
+                    roles = roleArray.join(' ')
+                }
+            })
             const embed = new MessageEmbed()
             .setAuthor(`${gMember.displayName}'s info`, user.avatarURL({type: 'png', dynamic: true}))
             .setThumbnail(user.avatarURL({type: 'png', dynamic: true}))
@@ -54,7 +63,7 @@ module.exports = {
                 {name: fieldNameStatus, value: status},
                 {name: 'Account Created', value: user.createdAt},
                 {name: 'Date joined', value: gMember.joinedAt},
-                {name: `Roles [${gMember._roles.length}]`, value: gMember.roles.cache.map(x => x).join(' ')}
+                {name: `Roles [${gMember._roles.length}]`, value: roles}
             )
             await message.channel.send({embed: embed})
         }
