@@ -37,14 +37,14 @@ const defEmojiList = [
   '\uD83D\uDD1F'
 ];
 
-const pollEmbed = async (msg, title, options, timeout = 120, emojiList = defEmojiList.slice(), forceEndPollEmoji = '\u2705') => {
+const pollEmbed = async (msg, title, options, timeout = 5, emojiList = defEmojiList.slice()) => {
   if (!msg && !msg.channel) return msg.reply('Channel is inaccessible.');
   if (!title) return msg.reply('Poll title is not given.');
   if (!options) return msg.reply('Poll options are not given.');
   if (options.length < 2) return msg.reply('Please provide more than one choice.');
   if (options.length > emojiList.length) return msg.reply(`Please provide ${emojiList.length} or less choices.`);
 
-  let text = `*To vote, react using the correspoding emoji.\nThe poll will close in **${timeout} seconds**.\n<@${msg.author.id}> can end the poll by reacting to the ${forceEndPollEmoji} emoji.*\n\n`;
+  let text = `To vote, react using the correspoding emoji.\nThe poll will close in **${timeout} seconds**.\n\n`;
   const emojiInfo = {};
   for (const option of options) {
     const emoji = emojiList.splice(0, 1);
@@ -52,7 +52,6 @@ const pollEmbed = async (msg, title, options, timeout = 120, emojiList = defEmoj
     text += `${emoji} : \`${option}\`\n\n`;
   }
   const usedEmojis = Object.keys(emojiInfo);
-  usedEmojis.push(forceEndPollEmoji);
 
   const poll = await msg.channel.send(embedBuilder(title, msg.author.tag, msg).setDescription(text));
   for (const emoji of usedEmojis) await poll.react(emoji);
@@ -64,7 +63,6 @@ const pollEmbed = async (msg, title, options, timeout = 120, emojiList = defEmoj
   const voterInfo = new Map();
   reactionCollector.on('collect', (reaction, user) => {
     if (usedEmojis.includes(reaction.emoji.name)) {
-      if (reaction.emoji.name === forceEndPollEmoji && msg.author.id === user.id) return reactionCollector.stop();
       if (!voterInfo.has(user.id)) voterInfo.set(user.id, { emoji: reaction.emoji.name });
       var votedEmoji = voterInfo.get(user.id).emoji;
       if (votedEmoji !== reaction.emoji.name) {
