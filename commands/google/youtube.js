@@ -25,16 +25,16 @@ module.exports = {
         response.on('end', function() {
           body = JSON.parse(body);
           size = body.items.length - 1
-          if (!body.items)  return message.reply("No results found.")
+          if (body.items.length  === 0)  return message.reply("No results found.")
           let link = `https://youtu.be/${body.items[0].id.videoId}`
           i = 0
 
           message.channel.send(link).then(
             msg => msg.react('⬅️').then(
               msg.react('➡️').then(
-                msg.react('❌').then(
-                  msg.createReactionCollector(filter, { time: 60000, dispose: true })
-                  .on('collect', reaction => {
+                msg.react('❌').then(() => {
+                  let collector =  msg.createReactionCollector(filter, { time: 60000, dispose: true });
+                  collector.on('collect', reaction => {
                     if (reaction.emoji.name === '⬅️' && i > 0) {
                       --i;
                       reaction.message.edit(`https://youtu.be/${body.items[i].id.videoId}`)
@@ -47,8 +47,8 @@ module.exports = {
                     else if (reaction.emoji.name === '❌') {
                       msg.delete();
                     }
-                  })
-                  .on('remove', reaction => {
+                  });
+                  collector.on('remove', reaction => {
                     if (reaction.emoji.name === '⬅️' &&  i > 0) {
                       --i;
                       reaction.message.edit(`https://youtu.be/${body.items[i].id.videoId}`)
@@ -61,11 +61,12 @@ module.exports = {
                     else if (reaction.emoji.name === '❌') {
                       msg.delete();
                     }
-                  })
+                  });
                   .on('end', collected => {
-                    msg.reactions.removeAll()
-                  })
-                ))))
+                    if(!msg.deleted) msg.reactions.removeAll()
+                  });
+
+                }))))
         })
 
       }).on('error', (e) => {
