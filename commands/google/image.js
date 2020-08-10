@@ -36,10 +36,10 @@ module.exports = {
           message.channel.send({ embed }).then(
             msg => msg.react('⬅️').then(
               msg.react('➡️').then(
-                msg.react('❌').then(
+                msg.react('❌').then(() => {
 
-                  msg.createReactionCollector(filter, { time: 60000, dispose: true })
-                  .on('collect', reaction => {
+                  let collector =  msg.createReactionCollector(filter, { time: 60000, dispose: true })
+                  collector.on('collect', reaction => {
                     if (reaction.emoji.name === '⬅️' && i > 0) {
                       --i;
                       updateEmbed = new MessageEmbed(embed)
@@ -60,7 +60,7 @@ module.exports = {
                       msg.delete();
                     }
                   })
-                  .on('remove', reaction => {
+                  collector.on('remove', reaction => {
                     if (reaction.emoji.name === '⬅️' && i > 0) {
                       --i;
                       updateEmbed = new MessageEmbed(embed)
@@ -81,10 +81,10 @@ module.exports = {
                       msg.delete();
                     }
                   })
-                  .on('end', collected => {
-                    msg.reactions.removeAll()
+                  collector.on('end', collected => {
+                    if(!msg.deleted) msg.reactions.removeAll()
                   })
-                ))))
+                }))))
         })
       }).on('error', (e) => {
         message.channel.send(`\`${e}\``)

@@ -62,7 +62,7 @@ module.exports = {
                       msg.delete();
                     }
                   });
-                  .on('end', collected => {
+                  collector.on('end', collected => {
                     if(!msg.deleted) msg.reactions.removeAll()
                   });
 
