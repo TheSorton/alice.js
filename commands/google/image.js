@@ -25,8 +25,8 @@ module.exports = {
 
         response.on('end', function() {
           body = JSON.parse(body);
-          size = body.items.length - 1 
           if (!body.items)  return message.reply("No results found.")
+          size = body.items.length - 1 
           const embed = new MessageEmbed()
             .setAuthor(`${message.author.tag} searched for ${args.join(' ')}`)
             .setImage(body.items[0].link)
