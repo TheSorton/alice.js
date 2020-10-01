@@ -44,7 +44,6 @@ module.exports = {
                     covers = [];
                     let n = 0
                     while (n < 9) {
-                        console.log(JSON.parse(body))
                         if (!JSON.parse(body).topalbums.album[n].image[3]['#text']) {
                             covers.push('https://live.staticflickr.com/3804/8788210204_4b9b45becb.jpg')
                             n++;    
@@ -128,7 +127,6 @@ module.exports = {
                     break;
 
                 default: 
-                    console.log('defaulted')
                     var username = args[0]
                     timespan = args[1] || '7day'
                     getAlbums(urlBuilder(username, timespan), username)
