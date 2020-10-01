@@ -18,8 +18,9 @@
   },
   "homepage": "https://github.com/TheSorton/alice#readme",
   "dependencies": {
+    "@mtblc/image-collage": "github:mtblc/image-collage#master",
     "common-tags": "^1.8.0",
-    "discord.js": "^12.2.0",
+    "discord.js": "^12.3.1",
     "discord.js-poll-embed": "^1.0.2",
     "emoji-name-map": "^1.2.8",
     "jaro-winkler": "^0.2.8",
