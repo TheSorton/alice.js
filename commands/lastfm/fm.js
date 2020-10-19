@@ -47,7 +47,7 @@ module.exports = {
         else if (args[0]) var username = args[0]
         else if (doc = await lastFMModel.findOne({ userID: message.author.id })) var username = doc.username
         else {
-          await message.reply("Set your username using `fm set [username]` without the brackets.")
+          await message.reply("Set your username using `%fm set [username]` without the brackets.")
           return
         }
       }
