@@ -1,6 +1,6 @@
 var schedule = require('node-schedule');
 
-const { clean_everyone, clean_here } = require("../../utils/sanitize.js").sanitize;
+const { cleanEveryone, cleanHere } = require("../../utils/sanitize.js").sanitize;
 const RemindModel = require("../../database/models/reminder");
 
 module.exports = {

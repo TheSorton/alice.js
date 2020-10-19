@@ -1,9 +1,10 @@
-const { clean_everyone, clean_here } = require("../../utils/sanitize.js").sanitize;
+const { cleanEveryone, cleanHere } = require("../../utils/sanitize.js").sanitize;
 const bent = require('bent');
+const getJSON = bent('json')
 const { MessageEmbed } = require("discord.js");
+
 module.exports = {
     run: async(client, message, args) => {
-        const getJSON = bent('json')
 	    let search = await getJSON(`https://api.jikan.moe/v3/search/anime?q=${args.join(" ")}&page=1`)
         let animeID = search.results[0].mal_id
 

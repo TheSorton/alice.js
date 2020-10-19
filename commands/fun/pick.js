@@ -1,11 +1,11 @@
 const config = require('../../config/config.json')
-const { clean_everyone, clean_here } = require('../../utils/sanitize.js').sanitize;
+const { cleanEveryone, cleanHere } = require('../../utils/sanitize.js').sanitize;
 
 module.exports = {
   run: async(client, message) => {
     try {
       let args = message.content.slice(6).split(', ');
-      let out = args.map(arg => clean_everyone(clean_here(arg)));
+      let out = args.map(arg => cleanEveryone(cleanHere(arg)));
 
       if (!out[0]) return await message.reply('what did you want me to pick?')
       if (!out[1]) return await message.reply('too few arguments. You need at least two.');

@@ -1,4 +1,4 @@
-const { clean_everyone, clean_here } = require("../../utils/sanitize.js").sanitize;
+const { cleanEveryone, cleanHere } = require("../../utils/sanitize.js").sanitize;
 const bent = require('bent');
 const { MessageEmbed } = require("discord.js");
 const getJSON = bent('json');

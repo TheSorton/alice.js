@@ -1,6 +1,6 @@
 const config = require('../../config/config.json')
 const { MessageEmbed } = require('discord.js')
-const { clean_everyone, clean_here } = require('../../utils/sanitize.js').sanitize;
+const { cleanEveryone, cleanHere } = require('../../utils/sanitize.js').sanitize;
 const pollEmbed = require('../../utils/pollEmbed.js');
 
 module.exports = {
@@ -9,7 +9,7 @@ module.exports = {
       let args = message.content.slice(6).split(', ')
       let title = args[0];
       args.shift()
-      let out = args.map(arg => clean_everyone(clean_here(arg)));
+      let out = args.map(arg => cleanEveryone(cleanHere(arg)));
       console.log(args, title)
       if (!args[1]) return await message.reply("You must supply at least two choices")
       pollEmbed(message, title, args)
