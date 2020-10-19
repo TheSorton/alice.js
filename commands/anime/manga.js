@@ -24,7 +24,7 @@ module.exports = {
                 { name: 'MAL Rank', value: manga.rank || "Not found", inline: true },
                 { name: 'Genres', value: genres || "Not found"}
             )
-            .setFooter("Information from MyAnimeList", 'https://upload.wikimedia.org/wikipedia/commons/7/7a/MyAnimeList_Logo.png')
+            .setFooter("Information provided by MyAnimeList", 'https://upload.wikimedia.org/wikipedia/commons/7/7a/MyAnimeList_Logo.png')
 
         await message.channel.send(embed)
     },
