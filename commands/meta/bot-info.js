@@ -9,12 +9,12 @@ module.exports = {
         .setAuthor(`${client.user.username}'s stats.`, client.user.avatarURL({format: 'png', dynamic: 'true' }))
         .setThumbnail(client.user.avatarURL({format: 'png', dynamic: 'true', size: 2048 }))
         .addFields(
-          {name: "Version", value: pkgInfo.version},
-          {name: "Node.js Version", value: process.version},
-          {name: "Discord.js Version", value: pkgInfo.dependencies["discord.js"].replace('^', 'v'), inline: false},
-          {name: "Uptime", value: helpers.format(process.uptime())}
+          { name: "Version", value: pkgInfo.version },
+          { name: "Node.js Version", value: process.version },
+          { name: "Discord.js Version", value: pkgInfo.dependencies["discord.js"].replace('^', 'v'), inline: false },
+          { name: "Memory Usage", value: `${Math.round((process.memoryUsage().heapUsed / 1024 / 1024) * 100) / 100} MB` },
+          { name: "Uptime", value: helpers.format(process.uptime()) }
         )
-        .setFooter('https://alice.nyx.moe/')
       await message.channel.send({ embed: embed})
     }
     catch (error) {
