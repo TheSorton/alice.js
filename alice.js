@@ -23,6 +23,7 @@ client.on('ready', () => {
   console.log(`${client.user.tag} has sucessfully logged in. My ID is: ${client.user.id}.\nThe current time is ${helpers.time()}`)
   client.user.setActivity(`${config.bot.prefix}help`, { type: 'PLAYING' });
   database.then(() => console.log("Connected to MongoDB")).catch(err => console.log(err));
+  console.log(client.commands)
 });
 
 client.on('ready', () => {

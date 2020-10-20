@@ -8,7 +8,9 @@ client.on('guildMemberAdd', async member => {
     if (msgDoc) {
       let { config } = msgDoc;
       let welChan = config.welChan 
-      member.guild.channels.cache.find(x => x.id === welChan).send(`<@${member.id}> has joined.`)}
+      if (member.guild.memberCount === 1000) return member.guild.channels.cache.find(x => x.id === welChan).send(`<@${member.id}> is our 1000th member! Have a cookie :laincookie:!`)
+      else return member.guild.channels.cache.find(x => x.id === welChan).send(`<@${member.id}> has joined.`)
+    }
     else return
   }
 
