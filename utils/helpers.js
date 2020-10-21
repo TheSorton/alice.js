@@ -9,7 +9,7 @@ const format = (seconds) => {
   return pad(hours) + ':' + pad(minutes) + ':' + pad(seconds);
 }
 
-const rollDice = () => Math.floor(Math.random() * 6) + 1;
+const rollDice = (die) => Math.floor(Math.random() * die) + 1;
 
 var today = new Date();
 const time = () => today.getHours() + ":" + today.getMinutes()
