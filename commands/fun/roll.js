@@ -5,7 +5,7 @@ module.exports = {
   run: async(client, message, args) => {
     try {
       if (args[0]) {
-        let die = args[0].replace(/[^1-9]/,"");
+        let die = args[0].replace(/[^1-9]/g,"");
         await message.reply(`You rolled ${helpers.rollDice(die)}`)
       }
       else return message.reply(`You rolled ${helpers.rollDice(6)}`)
