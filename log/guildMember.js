@@ -1,20 +1,5 @@
 
 
-// Guild Member joins
-client.on('guildMemberAdd', async member => {
-  let guild = configModel.findOne({ guildID: member.guild.id });
-  if (guild) { 
-    let msgDoc = await configModel.findOne({ guildID: member.guild.id }); 
-    if (msgDoc) {
-      let { config } = msgDoc;
-      let welChan = config.welChan 
-      if (member.guild.memberCount === 1000) return member.guild.channels.cache.find(x => x.id === welChan).send(`<@${member.id}> is our 1000th member! Have a cookie :laincookie:!`)
-      else return member.guild.channels.cache.find(x => x.id === welChan).send(`<@${member.id}> has joined.`)
-    }
-    else return
-  }
-
-})
 
 // Guild Member leaves
 client.on('guildMemberRemove', async member => {

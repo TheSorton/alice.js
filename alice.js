@@ -23,7 +23,6 @@ client.on('ready', () => {
   console.log(`${client.user.tag} has sucessfully logged in. My ID is: ${client.user.id}.\nThe current time is ${helpers.time()}`)
   client.user.setActivity(`${config.bot.prefix}help`, { type: 'PLAYING' });
   database.then(() => console.log("Connected to MongoDB")).catch(err => console.log(err));
-  console.log(client.commands)
 });
 
 client.on('ready', () => {
@@ -176,5 +175,33 @@ client.on('guildCreate', async (guild) => {
         .then(console.log(`${guild.name} has been added to the database.`))
     }
   }   
+
+})
+const ordinal = (i) => {
+    let j = i % 10,
+        k = i % 100;
+    if (j === 1 && k != 11) {
+        return i + "st";
+    }
+    if (j === 2 && k != 12) {
+        return i + "nd";
+    }
+    if (j === 3 && k != 13) {
+        return i + "rd";
+    }
+   return i + "th";
+}
+// Guild Member joins
+client.on('guildMemberAdd', async member => {
+  let guild = configModel.findOne({ guildID: member.guild.id });
+  if (guild) { 
+    let msgDoc = await configModel.findOne({ guildID: member.guild.id }); 
+    if (msgDoc) {
+      let { config } = msgDoc;
+      let welChan = config.welChan;
+      await member.guild.channels.cache.find(x => x.id === welChan).send(`<@${member.user.id}> has joined.`)
+    }
+    else return
+  }
 
 })

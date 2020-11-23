@@ -23,7 +23,7 @@ module.exports = {
         }
         if (gMember) {
           embed.setAuthor(`${gMember.user.username}'s avatar.`, gMember.user.avatarURL({format: 'png', dynamic: 'true' }))
-          embed.setImage(gMember.user.avatarURL({format: 'png', dynamic: 'true', size: 2048 }))
+          embed.setImage(gMember.user.avatarURL({format: 'png', dynamic: 'true' }))
           await message.channel.send({ embed: embed})
         }
 
