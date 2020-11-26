@@ -41,8 +41,7 @@ client.on('message', message => {
   console.log('Line 47 (typeof possibleCommands passes): ' + typeof possibleCommands )
 
 
-  const command = (possibleCommands.get(commandName) ||
-    possibleCommands.find((cmd: string | Command) => {
+  const command = (possibleCommands.get(commandName) || possibleCommands.find((cmd: string | Command) => {
       if (typeof cmd === 'string') return false;
       if (cmd.aliases && cmd.aliases.includes(commandName)) return true;
       else return false;
@@ -62,21 +61,15 @@ client.on('message', message => {
     return message.reply('You must be the bot\'s owner.');
   }
 
-  if (
-    command.adminRequired &&
-    !(message.member === null) &&
-    !message.member.hasPermission('ADMINISTRATOR')
-  ) {
+  if (command.adminRequired && !(message.member === null) && !message.member.hasPermission('ADMINISTRATOR')) {
     return message.reply("You don't have adequate permissions!");
   }
 
   if (command.argsRequired && !args.length) {
     let reply = `You didn't provide the necessary arguments, ${message.author}!`;
-
-    if (command.usage) {
-      reply += `\nThe proper usage would be: \`${command.usage}\``;
-    }
-
+      if (command.usage) {
+        reply += `\nThe proper usage would be: \`${command.usage}\``;
+      }
     return message.channel.send(reply);
   }
 
@@ -85,9 +78,7 @@ client.on('message', message => {
   }
 
   const now = Date.now();
-  const timestamps:
-    | Discord.Collection<string, number>
-    | undefined = cooldowns.get(command.name);
+  const timestamps: | Discord.Collection<string, number> | undefined = cooldowns.get(command.name);
 
   const cooldownAmount = command.cooldown * 1000;
 
@@ -113,15 +104,16 @@ client.on('message', message => {
       timestamps.set(message.author.id, now);
       setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
     }
-  }
+  };
 
   try {
     command.run(message, args);
     return;
-  } catch (error) {
+  }
+  catch (error) {
     console.error(error);
     return;
-  }
+  };
 });
 
 client.login(token);
