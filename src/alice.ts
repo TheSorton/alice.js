@@ -2,16 +2,37 @@ import * as Discord from 'discord.js';
 import * as config from '../config/config.json';
 import Command from './lib/command';
 import aliceClient from './lib/aliceClient';
+import Enmap from 'enmap'
 
 const prefix = config.bot.prefix
 const token = config.bot.token
-const client = new aliceClient({});
+export const client = new aliceClient({});
 
 const cooldowns: Discord.Collection<string, Discord.Collection<string, number>> = new Discord.Collection();
+
+client['guildData'] = new Enmap({
+  name: 'guilds'
+})
+
+client['userData'] = new Enmap({
+  name: 'users'
+}) 
 
 client.on('ready', () => {
   console.log('Client is ready!');
 
+  for (const guild of client.guilds.cache.array()) {
+    if (!client['guildData'].has(guild.id)) {
+      client['guildData'].set(guild.id,
+      {
+        name: guild.name,
+        systemChannel: parseInt(guild.systemChannelID),
+        prefix: prefix
+      });
+    };
+  };
+
+  console.log(client['guildData'])
 });
 
 client.on('message', message => {
@@ -70,7 +91,7 @@ client.on('message', message => {
       if (command.usage) {
         reply += `\nThe proper usage would be: \`${command.usage}\``;
       }
-    return message.channel.send(reply);
+    return message.reply(reply);
   }
 
   if (!cooldowns.has(command.name)) {
@@ -107,7 +128,7 @@ client.on('message', message => {
   };
 
   try {
-    command.run(message, args);
+    command.run(message, args, client);
     return;
   }
   catch (error) {
