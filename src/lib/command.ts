@@ -1,4 +1,5 @@
-  import * as Discord from 'discord.js';
+import * as Discord from 'discord.js';
+import aliceClient from './aliceClient';
 
   export default class Command {
     name: string;
@@ -11,7 +12,7 @@
     adminRequired?: boolean;
     argsRequired?: boolean;
     cooldown?: number;
-    run: (message: Discord.Message, args?: string[]) => void;
+    run: (message: Discord.Message, args?: string[], client?: aliceClient) => void;
 
     constructor(props: {
       name: string;
