@@ -25,7 +25,7 @@ module.exports = {
   name: 'say',                          // Name of command (required)
   description: 'A basic say command.',  // Description of command (required)
   category: 'utilities',                // Category of command (currently unused)
-  usage: `${prefix}say something`,      // Usage of command (optional)
+  usage: `say something`,               // Usage of command (optional) **NOTE**: Do not add a prefix to this string
   argsRequired: true,                   // If args are required (optional)
   guildOnly: false,                     // If the command should only be allowed in the server (optional)
   ownerOnly: false,                     // If the command should only be used by the bot's owner (optional)
