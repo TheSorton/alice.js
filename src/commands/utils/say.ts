@@ -8,6 +8,6 @@ module.exports = {
   argsRequired: true,
   cooldown: 30,
   run(message: Message, args: string[] ) {
-    message.channel.send(args.join(' '))
+    message.reply(args.join(' '))
   },
 };

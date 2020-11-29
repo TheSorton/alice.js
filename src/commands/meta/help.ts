@@ -61,7 +61,7 @@ module.exports = {
     }
 
     if (!args.length) {
-      return message.channel.send(embedInitial)
+      return message.reply(embedInitial)
         .catch(error => {
           console.error(error);
         });
@@ -84,7 +84,7 @@ module.exports = {
     if (command.cooldown) embed.addField('**Cooldown:**', command.cooldown + ' seconds', true);
     if (command.guildOnly) embed.addField('** Server Only? **:', command.guildOnly, true)
 
-    message.channel.send(embed);
+    message.reply(embed);
     return;
   },
 };
