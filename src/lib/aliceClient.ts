@@ -20,8 +20,7 @@ export default class aliceClient extends Discord.Client {
         const command: Command = require(`${__dirname}/../commands/${folder}/${file}`);
         commands.set(command.name, command);
       }
-      this.commands.set(prefix, commands);
-      commands.set('name', prefix);
+      this.commands.set('commands', commands);
     }
   }
 }

@@ -4,7 +4,7 @@ import { prefix } from '../../lib/aliceClient';
 module.exports = {
   name: 'say',
   description: 'A basic say command.',
-  usage: `${[prefix]}say something`,
+  usage: `say something`,
   argsRequired: true,
   cooldown: 30,
   run(message: Message, args: string[] ) {

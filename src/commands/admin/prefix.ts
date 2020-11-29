@@ -2,19 +2,20 @@ import {Client as client, Message} from 'discord.js'
 import * as config from '../../../config/config.json';
 import aliceClient from '../../lib/aliceClient';
 const prefix = config.bot.prefix;
+import Enmap from 'enmap';
 
 module.exports = {
   name: 'prefix',
   description: 'Change the bot\'s prefix',
-  usage: `${prefix}prefix character`,
+  usage: `prefix character`,
   argsRequired: true,
-  run(message: Message, args: string[], client: aliceClient ) {
-    if (!message.member.permissions.has("MANAGE_GUILD")) return message.reply(`You can't do that`);
-    if (client['guildData'].has(message.guild.id)) {
-      let guild = client['guildData'].get(message.guild.id)
-      guild.prefix = args[0];
-      console.log(guild)
+  run(message: Message, args: string[], client: aliceClient) {
+    let enmap: Enmap = client['guildData']
+    if (!message.member.permissions.has("MANAGE_GUILD")) return message.channel.send(`You can't do that`);
+    if (enmap.has(message.guild.id)) {
+      enmap.set(message.guild.id, args[0], 'prefix'); 
     }
+    message.reply(`Prefix has been set to: **${enmap.get(message.guild.id, "prefix")}** `)
   }
 };  
 

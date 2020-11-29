@@ -1,17 +1,20 @@
 import {Message, MessageEmbed} from 'discord.js';
 import * as fs from 'fs';
-import { prefix, owner } from '../../lib/aliceClient';
+import aliceClient from '../../lib/aliceClient';
+import { getPrefix } from '../../alice';
+
 
 module.exports = {
   name: 'help',
   description: 'Lists all commands, or specific info for a command',
   aliases: ['commands'],
-  usage: `${prefix}help [command]`,
+  usage: `help [command]`,
   cooldown: 0,
   guildOnly: false,
   adminReq: false,
   argsRequired: false,
-  run(message: Message, args: string[]) {
+  run(message: Message, args: string[], client: aliceClient) {
+    const prefix: string = client['guildData'].get(message.guild.id, 'prefix')
 
     const commands = new Map();
     const aliases = new Map();
@@ -80,7 +83,7 @@ module.exports = {
       .setTimestamp();
     if (command.description) embed.addField('**Description:**', command.description, false);
     if (command.aliases) embed.addField('**Aliases:**', command.aliases.join(', '), true);
-    if (command.usage) embed.addField('**Usage:**', command.usage, true);
+    if (command.usage) embed.addField('**Usage:**', getPrefix(client, message) + command.usage, true);
     if (command.cooldown) embed.addField('**Cooldown:**', command.cooldown + ' seconds', true);
     if (command.guildOnly) embed.addField('** Server Only? **:', command.guildOnly, true)
 

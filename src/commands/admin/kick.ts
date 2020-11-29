@@ -5,7 +5,7 @@ const prefix = config.bot.prefix;
 module.exports = {
   name: 'kick',
   description: 'Kick a member',
-  usage: `${prefix}kick @User [Reason]`,
+  usage: `kick @User [Reason]`,
   run(message: Message, args: string[] ) {
     if (!message.member.permissions.has("BAN_MEMBERS")) return message.reply(`You can't do that.`);
     if (message.mentions.users.first()) {

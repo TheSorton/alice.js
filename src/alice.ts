@@ -4,7 +4,6 @@ import Command from './lib/command';
 import aliceClient from './lib/aliceClient';
 import Enmap from 'enmap'
 
-const prefix = config.bot.prefix
 const token = config.bot.token
 export const client = new aliceClient({});
 
@@ -21,24 +20,34 @@ client['userData'] = new Enmap({
 client.on('ready', () => {
   console.log('Client is ready!');
 
-  for (const guild of client.guilds.cache.array()) {
-    if (!client['guildData'].has(guild.id)) {
-      client['guildData'].set(guild.id,
-      {
-        name: guild.name,
-        systemChannel: parseInt(guild.systemChannelID),
-        prefix: prefix
-      });
+
+  client['guildData'].defer.then( () => {
+    console.log(client['guildData'].size + " keys loaded");
+    for (let guild of client.guilds.cache.array()) {
+      if (!client['guildData'].has(guild.id)) {
+        console.log(client['guildData'].has(guild.id))
+        client['guildData'].set(guild.id,
+        {
+          name: guild.name,
+          systemChannel: parseInt(guild.systemChannelID),
+          prefix: config.bot.prefix
+        });
+      };
     };
-  };
+  });
+
+  client['guildData'].changed((keyName, oldValue, newValue) => {
+    console.log(`Value of ${keyName} has changed from: \n${oldValue}\nto\n${newValue}`);
+  });
 
   console.log(client['guildData'])
 });
 
 client.on('message', message => {
   if (message.author.bot) return;
-  const args = message.content.slice(prefix.length).split(/ +/);
-  const cmdName = args.shift();
+  let prefix: string = client['guildData'].get(message.guild.id, 'prefix')
+  const args: string[] = message.content.slice(prefix.length).split(/ +/);
+  const cmdName: string = args.shift();
 
 
   let commandType: string | undefined;
@@ -55,7 +64,7 @@ client.on('message', message => {
   const commandName: string = cmdName.toLowerCase();
   console.log(client.commands.get(prefix))
  
-  const possibleCommands: Discord.Collection<string, string | Command> | undefined = client.commands.get(prefix);
+  const possibleCommands: Discord.Collection<string, string | Command> | undefined = client.commands.get('commands');
   console.log('Line 44 (possibleCommands filled): ' + possibleCommands )  
 
   if (!typeof possibleCommands) return;
@@ -87,9 +96,9 @@ client.on('message', message => {
   }
 
   if (command.argsRequired && !args.length) {
-    let reply = `You didn't provide the necessary arguments, ${message.author}!`;
+    let reply = `You didn't provide the necessary arguments.`;
       if (command.usage) {
-        reply += `\nThe proper usage would be: \`${command.usage}\``;
+        reply += `\nThe proper usage would be: \`${getPrefix(client, message) + command.usage}\``;
       }
     return message.reply(reply);
   }
@@ -128,14 +137,23 @@ client.on('message', message => {
   };
 
   try {
-    command.run(message, args, client);
-    return;
+    if (command.name === 'help') {
+      return command.run(message, args, client);
+    }
+    else {
+      return command.run(message, args, client)
+    }
   }
   catch (error) {
     console.error(error);
     return;
   };
 });
+
+export const getPrefix = (client: aliceClient, message: Discord.Message) => {
+  const prefix: string = client['guildData'].get(message.guild.id, 'prefix')
+  return prefix
+}
 
 client.login(token);
 process.on('unhandledRejection', console.error);
