@@ -84,8 +84,8 @@ module.exports = {
     if (command.description) embed.addField('**Description:**', command.description, false);
     if (command.aliases) embed.addField('**Aliases:**', command.aliases.join(', '), true);
     if (command.usage) embed.addField('**Usage:**', getPrefix(client, message) + command.usage, true);
-    if (command.cooldown) embed.addField('**Cooldown:**', command.cooldown + ' seconds', true);
-    if (command.guildOnly) embed.addField('** Server Only? **:', command.guildOnly, true)
+    if (command.cooldown) embed.addField('**Cooldown:**', command.cooldown + ' seconds', false);
+    if (command.guildOnly) embed.addField('** Server Only:**', command.guildOnly, true)
 
     message.reply(embed);
     return;
