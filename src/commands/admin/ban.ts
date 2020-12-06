@@ -6,6 +6,7 @@ module.exports = {
   name: 'ban',
   description: 'Bans a member',
   usage: `ban @User [Reason]`,
+  guildOnly: true,
   run(message: Message, args: string[] ) {
     if (!message.member.permissions.has("BAN_MEMBERS")) return message.reply(`You can't do that.`);
     if (message.mentions.users.first()) {
