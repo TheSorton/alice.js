@@ -45,7 +45,12 @@ client.on('ready', () => {
 
 client.on('message', message => {
   if (message.author.bot) return;
-  let prefix: string = client['guildData'].get(message.guild.id, 'prefix')
+  if (message.guild) {
+    var prefix: string = client['guildData'].get(message.guild.id, 'prefix');
+  }
+  else {
+    var prefix: string = config.bot.prefix;
+  }
   const args: string[] = message.content.slice(prefix.length).split(/ +/);
   const cmdName: string = args.shift();
 
@@ -83,7 +88,7 @@ client.on('message', message => {
   console.log('Line 54 (command.guildOnly): ' + command.guildOnly )
 
   if (command.guildOnly && message.channel.type !== 'text') {
-    return message.reply('Sorry, you can only use that command on servers!');
+    return message.reply('This command is only available on servers.');
   }
 
   console.log(message.author.id != config.bot.owner)
