@@ -12,7 +12,25 @@ A multifunctional Discord bot in TypeScript.
 Don't. Host it yourself for now. 
 
 ## Configuration
-Copy `config/config.example.json` to `config/config.json` and fill it out.
+```json
+{
+    "bot": {
+        "token": "token",
+        "prefix": "prefix",
+        "owner": "your id"
+    },
+    "lastfm": {
+        "apikey": "last.fm api key"
+    },
+    "google":  {
+        "apikey": "google api key",
+        "cx": "google custom search indentifier"
+    }
+
+}
+```
+to `config/config.json`
+
 
 ## Writing Commands
 Commands are in `src/commands/` and each subdir acts as the command's category. 
