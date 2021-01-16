@@ -32,7 +32,7 @@ module.exports = {
 
         let link = `https://youtu.be/${body.items[i].id.videoId}`
 
-				let msgInit = await message.channel.send(link)
+				let msgInit = await message.reply(link)
 				let collector = msgInit.createReactionCollector(filter, { time: 60000, dispose: true })
 
 				msgInit.react('⬅️')

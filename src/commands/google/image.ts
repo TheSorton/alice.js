@@ -1,7 +1,6 @@
 import {Message, MessageEmbed} from 'discord.js';
 import * as https from 'https';
 import * as config from '../../../config/config.json'
-import { pageEmbed } from '../../lib/embed/pageEmbed';
 
 
 module.exports = {
@@ -38,7 +37,7 @@ module.exports = {
 				.setDescription(`[${body.items[0].title}](${body.items[0].image.contextLink})`)
 				let i = 0
 
-				let msgInit = await message.channel.send({ embed })
+				let msgInit = await message.reply({ embed })
 				let collector = msgInit.createReactionCollector(filter, { time: 60000, dispose: true })
 
 				msgInit.react('⬅️')

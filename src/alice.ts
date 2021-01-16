@@ -5,7 +5,7 @@ import aliceClient from './lib/aliceClient';
 import Enmap from 'enmap'
 
 const token = config.bot.token
-export const client = new aliceClient({});
+export const client = new aliceClient({ partials: ['MESSAGE', 'CHANNEL', 'REACTION'] });
 
 const cooldowns: Discord.Collection<string, Discord.Collection<string, number>> = new Discord.Collection();
 
@@ -18,14 +18,14 @@ client['userData'] = new Enmap({
 }) 
 
 client.on('ready', () => {
-  console.log('Client is ready!');
+
 
 
   client['guildData'].defer.then( () => {
-    console.log(client['guildData'].size + " keys loaded");
+    
     for (let guild of client.guilds.cache.array()) {
       if (!client['guildData'].has(guild.id)) {
-        console.log(client['guildData'].has(guild.id))
+        
         client['guildData'].set(guild.id,
         {
           name: guild.name,
@@ -35,12 +35,10 @@ client.on('ready', () => {
       };
     };
   });
+  console.log(`https://discordapp.com/api/oauth2/authorize?client_id=${client.user.id}&permissions=0&scope=bot`);
 
-  client['guildData'].changed((keyName, oldValue, newValue) => {
-    console.log(`Value of ${keyName} has changed from: \n${oldValue}\nto\n${newValue}`);
-  });
+  console.log('Client is ready!');
 
-  console.log(client['guildData'])
 });
 
 client.on('message', message => {
@@ -61,19 +59,20 @@ client.on('message', message => {
     if (message.content.startsWith(prefix)) {
       commandType = command[1].get(cmdName) as string;
     }
+    else return;
   }
-  console.log('Line 31 (commandType filled): ' + commandType)
+  
   if (!typeof commandType) return;
 
   if (!cmdName) return;
   const commandName: string = cmdName.toLowerCase();
-  console.log(client.commands.get(prefix))
+  
  
   const possibleCommands: Discord.Collection<string, string | Command> | undefined = client.commands.get('commands');
-  console.log('Line 44 (possibleCommands filled): ' + possibleCommands )  
+  
 
   if (!typeof possibleCommands) return;
-  console.log('Line 47 (typeof possibleCommands passes): ' + typeof possibleCommands )
+  
 
 
   const command = (possibleCommands.get(commandName) || possibleCommands.find((cmd: string | Command) => {
@@ -82,16 +81,16 @@ client.on('message', message => {
       else return false;
     })) as Command;
 
-  console.log('Line 51 (command fills): ' + command )
+  
   if (!command) return;
 
-  console.log('Line 54 (command.guildOnly): ' + command.guildOnly )
+  
 
   if (command.guildOnly && message.channel.type !== 'text') {
     return message.reply('This command is only available on servers.');
   }
 
-  console.log(message.author.id != config.bot.owner)
+  
   if (command.ownerOnly && message.author.id != config.bot.owner) {
     return message.reply('You must be the bot\'s owner.');
   }

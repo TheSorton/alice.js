@@ -10,8 +10,6 @@ module.exports = {
   argsRequired: true,
   cooldown: 60,
   run(message: Message, args: string[]) {
-    if (!args[0]) return message.reply('a search term is required.')
-
     let url = `https://www.googleapis.com/customsearch/v1?key=${config.google.apikey}&cx=${config.google.cx}&safe=high&q=${args.join(' ')}}`
 
     https.get(url, function (response) {
@@ -22,19 +20,16 @@ module.exports = {
       });
 
       response.on('end', function () {
-        var body = JSON.parse(raw);
-        console.log(body)
+        let body = JSON.parse(raw);
         if (!body.items) return message.reply("No results found.")
-        let size = body.items.length - 1
         const embed = new MessageEmbed()
           .setAuthor(`${message.author.tag} searched for ${args.join(' ')}`)
 
-        let description = '';
-        body.items.slice(0, 5).forEach(result => description += `**[${result.title}](${result.formattedUrl})**\n${result.snippet}\n\n`) 
+        let description: string = '';
+        body.items.slice(0, 5).forEach(result => description += `**[${result.title}](${result.formattedUrl})**\n${result.snippet}\n*${result.displayLink}*\n\n`) 
         embed.setDescription(description)
-
-        message.channel.send({ embed })
+        message.reply({ embed })
       });
-    });
+    }); 
   }
 };

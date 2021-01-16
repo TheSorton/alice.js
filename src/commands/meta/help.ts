@@ -78,14 +78,13 @@ module.exports = {
     }
 
     const embed = new MessageEmbed()
-      .setTitle(`**${command.name}**`)
-      .setColor(0x00ae86)
+      .setAuthor(`${command.name}`)
       .setTimestamp();
     if (command.description) embed.addField('**Description:**', command.description, false);
-    if (command.aliases) embed.addField('**Aliases:**', command.aliases.join(', '), true);
-    if (command.usage) embed.addField('**Usage:**', getPrefix(client, message) + command.usage, true);
+    if (command.aliases) embed.addField('**Aliases:**', command.aliases.join(', '), false);
+    if (command.usage) embed.addField('**Usage:**', getPrefix(client, message) + command.usage, false);
     if (command.cooldown) embed.addField('**Cooldown:**', command.cooldown + ' seconds', false);
-    if (command.guildOnly) embed.addField('** Server Only:**', command.guildOnly, true)
+    if (command.guildOnly) embed.addField('**Server Only:**', command.guildOnly, false)
 
     message.reply(embed);
     return;
