@@ -19,13 +19,9 @@ client['userData'] = new Enmap({
 
 client.on('ready', () => {
 
-
-
   client['guildData'].defer.then( () => {
-    
     for (let guild of client.guilds.cache.array()) {
       if (!client['guildData'].has(guild.id)) {
-        
         client['guildData'].set(guild.id,
         {
           name: guild.name,
@@ -35,8 +31,8 @@ client.on('ready', () => {
       };
     };
   });
-  console.log(`https://discordapp.com/api/oauth2/authorize?client_id=${client.user.id}&permissions=0&scope=bot`);
 
+  console.log(`https://discordapp.com/api/oauth2/authorize?client_id=${client.user.id}&permissions=0&scope=bot`);
   console.log('Client is ready!');
 
 });
@@ -66,15 +62,11 @@ client.on('message', message => {
 
   if (!cmdName) return;
   const commandName: string = cmdName.toLowerCase();
-  
  
   const possibleCommands: Discord.Collection<string, string | Command> | undefined = client.commands.get('commands');
-  
 
   if (!typeof possibleCommands) return;
   
-
-
   const command = (possibleCommands.get(commandName) || possibleCommands.find((cmd: string | Command) => {
       if (typeof cmd === 'string') return false;
       if (cmd.aliases && cmd.aliases.includes(commandName)) return true;
@@ -84,13 +76,10 @@ client.on('message', message => {
   
   if (!command) return;
 
-  
-
   if (command.guildOnly && message.channel.type !== 'text') {
     return message.reply('This command is only available on servers.');
   }
 
-  
   if (command.ownerOnly && message.author.id != config.bot.owner) {
     return message.reply('You must be the bot\'s owner.');
   }
@@ -158,6 +147,10 @@ export const getPrefix = (client: aliceClient, message: Discord.Message) => {
   const prefix: string = client['guildData'].get(message.guild.id, 'prefix')
   return prefix
 }
+
+client.on('guildMemberRemove', async member => {
+      member.guild.systemChannel.send(`**${member.user.tag}** has left.`)
+})
 
 client.login(token);
 process.on('unhandledRejection', console.error);
