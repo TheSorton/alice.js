@@ -4,5 +4,6 @@ node_modules/
 sad
 out.png
 .vscode/
+.vs/
 *.swp
 data
