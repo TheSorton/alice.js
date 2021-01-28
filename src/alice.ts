@@ -151,6 +151,9 @@ export const getPrefix = (client: aliceClient, message: Discord.Message) => {
 client.on('guildMemberRemove', async member => {
       member.guild.systemChannel.send(`**${member.user.tag}** has left.`)
 })
+client.on('guildMemberAdd', async member => {
+      member.guild.systemChannel.send(`**${member.user.tag}** has joined.`)
+})
 
 client.login(token);
 process.on('unhandledRejection', console.error);
