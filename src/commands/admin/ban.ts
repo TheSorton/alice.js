@@ -10,8 +10,12 @@ module.exports = {
   run(message: Message, args: string[] ) {
     if (!message.member.permissions.has("BAN_MEMBERS")) return message.reply(`You can't do that.`);
     if (message.mentions.users.first()) {
-      const gMember = message.guild.member(message.mentions.users.first())
-      gMember.ban({ reason: args.slice(1).join(" ") } )
+      var reason = args.slice(2).join(' ').replace(/(<@!\d*>,\ *|<@!\d*>\ *)/gm, '')
+      let member = message.mentions.members
+      member.forEach(x => {
+          if (!x.bannable) return message.channel.send("You cannot ban this user.");
+      });                       
+      member.forEach(x => x.ban({ reason: reason }).catch(console.error));
     }
   }
 };

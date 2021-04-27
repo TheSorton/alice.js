@@ -12,12 +12,11 @@ module.exports = {
 
     if (message.mentions.users.first()) {
       let prefix: string = client['guildData'].get(message.guild.id, 'prefix')
-      let gMember = message.guild.member(message.mentions.users.first())
+      let member = message.mentions.members
       let roleName: string = client['guildData'].get(message.guild.id, 'muteRole')
       let muteRole = message.guild.roles.cache.find(x => x.name === roleName);
-      console.log(`prefix: ${prefix}\ngMember: ${gMember}\nroleName: ${roleName}\nmuteRole: ${muteRole}`)
       if (muteRole != undefined) {
-        await gMember.roles.add(muteRole);
+        member.forEach(x => x.roles.add(muteRole));
         return await message.reply('Muted');
       }
       else message.reply(`Set the mute role using \`${prefix}mute set role\``)
