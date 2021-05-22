@@ -1,0 +1,40 @@
+import {Message} from 'discord.js';
+import { prefix } from '../../lib/aliceClient';
+import { createCanvas, loadImage } from 'canvas'
+import { cleanEveryone, cleanHere } from "../../lib/sanitize";
+import * as fs from 'fs';
+import tinycolor from 'tinycolor2';
+
+module.exports = {
+  name: 'color',
+  description: 'See a color from its hex.',
+  usage: `color #000000`,
+  aliases: ['clr'],
+  argsRequired: true,
+  run(message: Message, args: string[]) {
+    const canvas = createCanvas(600, 400)
+    const canvasContext = canvas.getContext('2d')
+
+    let color: string = args[0]
+    let colorComp: string = tinycolor(color).spin(180).toHexString();
+    canvasContext.fillStyle = args[0]
+    console.log(args[0])
+    
+    canvasContext.fillRect(0, 0, 600, 400);
+    canvasContext.fillStyle = 'black';
+
+    canvasContext.shadowColor = "black";
+    canvasContext.shadowBlur = 10;
+    canvasContext.shadowOffsetX = 3;
+    canvasContext.shadowOffsetY = 3;
+    
+    canvasContext.font = "72px monospace"
+    canvasContext.textAlign="center"; 
+    canvasContext.textBaseline = "middle";
+    canvasContext.fillText(colorComp, canvas.width/2, canvas.height/2)
+    
+    const buffer = canvas.toBuffer('image/png')
+    console.log(buffer)
+    fs.writeFileSync('./color.png', buffer)
+  },
+};

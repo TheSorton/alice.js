@@ -8,7 +8,7 @@ module.exports = {
   usage: `kick @User [Reason]`,
   guildOnly: true,
   run(message: Message, args: string[] ) {
-    if (!message.member.permissions.has("BAN_MEMBERS")) return message.reply(`You can't do that.`);
+    if (!message.member.permissions.has("KICK_MEMBERS")) return message.reply(`You can't do that.`);
     if (message.mentions.users.first()) {
       if (message.mentions.users.first()) {
         var reason: string = args.slice(2).join(' ').replace(/(<@!\d*>,\ *|<@!\d*>\ *)/gm, '')
