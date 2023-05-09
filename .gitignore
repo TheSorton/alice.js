@@ -2,8 +2,9 @@ config/config.json
 node_modules/
 *.jpg
 sad
-out.png
+*.png
 .vscode/
 .vs/
 *.swp
 data
+*.png

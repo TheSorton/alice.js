@@ -67,15 +67,14 @@ module.exports = {
         var fieldNameStatus = 'Activity'
         var status: String | Activity = "None"
       }
-    
       
       embed.addFields(
         { name: 'Status', value: foundUser.presence.status, inline: true },
         { name: 'Bot?', value: foundUser.bot, inline: true },
         { name: 'ID', value: foundUser.id },
         { name: fieldNameStatus, value: status },
-        { name: 'Account Created', value: foundUser.createdAt },
-        { name: 'Date joined', value: gMember.joinedAt },
+        { name: 'Account Created', value: `<t:${(foundUser.createdAt.getTime() / 1000).toFixed(0)}:F>` },
+        { name: 'Date joined', value: `<t:${(gMember.joinedAt.getTime() / 1000).toFixed(0)}:F>` },
       )
     }
     message.reply(embed)

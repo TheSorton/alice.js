@@ -10,7 +10,7 @@ module.exports = {
   name: 'color',
   description: 'See a color from its hex.',
   usage: `color #000000`,
-  aliases: ['clr'],
+  aliases: ['clr', 'colour'],
   argsRequired: true,
   async run(message: Message, args: string[]) {
     // Declare constants
