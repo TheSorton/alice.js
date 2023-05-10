@@ -17,7 +17,8 @@ Don't. Host it yourself for now.
     "bot": {
         "token": "token",
         "prefix": "prefix",
-        "owner": "your id"
+        "owner": "your id",
+        "clientId": "app id"
     },
     "lastfm": {
         "apikey": "last.fm api key"
