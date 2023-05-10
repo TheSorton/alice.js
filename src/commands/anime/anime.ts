@@ -1,17 +1,18 @@
-import { Message, MessageEmbed } from 'discord.js';
+import { EmbedBuilder, SlashCommandBuilder } from 'discord.js';
 import anilist from 'anilist-node';
 import { htmlToMarkdown } from '../../lib/html2md'
 const Anilist = new anilist();
 
 module.exports = {
-  name: 'anime',
-  category: 'anime',
-  argsRequired: true,
-  aliases: ['chinese-cartoon'],
-  description: 'Searches AniList for an anime',
-  usage: '`anime <search-term>`',
-  async run(message: Message, args: string[]) {
-    const query: string = args.join(" ");
+  data: new SlashCommandBuilder()
+  .setName('anime')
+  .setDescription('Searches AniList for an anime')
+  .addStringOption(option =>
+    option
+    .setName('anime')
+    .setDescription('The anime to search')
+    .setRequired(true)),
+  async execute(interaction) {
     const getId = async (query: string): Promise<number | null> => {
       const data = await Anilist.searchEntry.anime(query);
       if (data.media.length > 0) {
@@ -21,11 +22,11 @@ module.exports = {
         return null;
       }
     };
-    const id = await getId(query);
+    const id = await getId(interaction.options.getString('anime'));
     if (id == null) {
-      return message.reply("Not found.");
+      return interaction.reply("Not found.");
     }
-  
+
     const data = await Anilist.media.anime(id);
       console.log(data)
     let genres = data.genres.join(", ");
@@ -67,13 +68,13 @@ module.exports = {
 
     const airdate = airDate(data.startDate.month,data.startDate.day,data.startDate.year,data.endDate.month,data.endDate.day,data.endDate.year)
       
-    const embed = new MessageEmbed()
+    const embed = new EmbedBuilder()
 
     if (!data.title.english) {
-        embed.setAuthor(`${data.title.native}`,data.coverImage.small, data.siteUrl)
+        embed.setAuthor({name: `${data.title.native}`, url: data.siteUrl})
     }
     else {
-        embed.setAuthor(`${data.title.english} (${data.title.native})`,data.coverImage.small, data.siteUrl)
+        embed.setAuthor({name: `${data.title.english} (${data.title.native})`, url: data.siteUrl})
     };
     if (data.description) {
         embed.setDescription(htmlToMarkdown(' >>> ' + data.description.substring(0, 500) + '...'))
@@ -98,7 +99,6 @@ module.exports = {
     ].filter(Boolean);
     
     embed.addFields(fields);
-    await message.reply(embed)
-
+    await interaction.reply({embeds: [embed]})
   },
 };

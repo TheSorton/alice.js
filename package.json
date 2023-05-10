@@ -3,7 +3,7 @@
   "description": "",
   "main": "alice.ts",
   "scripts": {
-    "start": "npx ts-node ./src/alice.ts",
+    "start": "npx ts-node ./src/deployCommands.ts && npx ts-node ./src/alice.ts",
     "dev:debug": "nodemon --inspect alice.ts"
   },
   "repository": {
@@ -25,6 +25,7 @@
     "axios": "^1.4.0",
     "bent": "^7.3.12",
     "common-tags": "^1.8.0",
+    "discord.js": "^14.11.0",
     "emoji-name-map": "^1.2.9",
     "enmap": "^5.8.0",
     "jaro-winkler": "^0.2.8",
@@ -37,7 +38,6 @@
   "devDependencies": {
     "@types/node": "^14.14.6",
     "canvas": "^2.7.0",
-    "discord.js": "github:monbrey/discord.js#inline-replies",
     "nodemon": "^2.0.6",
     "prettier": "^2.1.2",
     "ts-node": "^9.1.1",
