@@ -29,7 +29,7 @@ module.exports = {
 
     const data = await Anilist.media.anime(id);
       console.log(data)
-    let genres = data.genres.join(", ");
+    const genres = data.genres.join(", ");
     
     let studio = "";
     for (let i = 0; i < data.studios.length; i++) {
@@ -75,7 +75,7 @@ module.exports = {
     }
     else {
         embed.setAuthor({name: `${data.title.english} (${data.title.native})`, url: data.siteUrl})
-    };
+    }
     if (data.description) {
         embed.setDescription(htmlToMarkdown(' >>> ' + data.description.substring(0, 500) + '...'))
     }
@@ -84,7 +84,7 @@ module.exports = {
     }
     else {
       embed.setImage(data.bannerImage)
-    };
+    }
 
   const fields = [
       data.status && { name: 'Status', value: data.status.trim(), inline: true },
