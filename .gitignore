@@ -8,3 +8,4 @@ sad
 *.swp
 data
 *.png
+.DS_Store
