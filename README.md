@@ -1,28 +1,33 @@
 # alice
-Multifunctional Discord bot written in node.js.
+A multifunctional Discord bot in TypeScript.
+
+## Features
+***Disclaimer:*** As long as you see this, the features listed below may not be implemented.
+
+- Moderation utilities such as banning, kicking, logging, and more.
+- General utilities such as searching Google Images, YouTube, Urban Dictionary, MyAnimeList, dice rolls, and more.
+- Anything else I can think of
 
 ## Adding to your server
-Although the bot is considered "public" by Discord, it's not totally ready for mass deployment. I've only tested it on a total of 3 servers and it seems to work fine.
-If you're willing to accept the fact stuff may not work properly, you can use this [link](https://discord.com/api/oauth2/authorize?client_id=576453665171308546&permissions=8&scope=bot) to add it.
-It'll say it requires admininstrator for the same reason one may `chmod 777` something. You can take admin away from her and the only thing that *shouldn't* work is the moderation commands and logging. 
+Don't. Host it yourself for now. 
 
-## Self-hosting
-If you're planning on self-hosting the bot, there are some considerations to make:
-- The bot uses [mongodb](https://www.mongodb.com/) for databases. (The database is called `main`)
-- It uses several (free) API keys for different calls.
-- It requires a config.json in `./config/`. (You will need to create this directory.)
-
-### config.json
-The config.json file is in the following format:
+## Configuration
 ```json
 {
     "bot": {
-        "token": "your token",
-        "prefix": "the bots prefix",
-        "owner": "the owner of the bot's ID"
+        "token": "token",
+        "prefix": "prefix",
+        "owner": "bot owner id",
+        "clientId": "bot id"
     },
     "lastfm": {
         "apikey": "last.fm api key"
+    },
+    "cat": {
+        "apikey": "cat api key (https://thecatapi.com)"
+    },
+    "anilist": {
+        "apikey": "anilist api key"
     },
     "google":  {
         "apikey": "google api key",
@@ -30,11 +35,7 @@ The config.json file is in the following format:
     }
 }
 ```
-These keys are not required, but the commands will give an error if they're left out.
+in `config/config.json`
 
-### Starting
-After your config.json has been created, make sure to have at least node.js v12 and npm installed as these are required. Run `npm install` to install the bots dependencies. 
-After they are installed, run `npm run start` to start the bot.
-
-## Configuration
-For several components, alice will require configuration on the server. Use `<prefix>help config` to see what the different configuration options are.
+# MongoDB
+This bot uses MongoDB. It creates a database titled `main` and connects to `mongodb://localhost:27017/main` which can be seen on line 10.

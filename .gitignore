@@ -1,6 +1,11 @@
 config/config.json
 node_modules/
-package-lock.json
 *.jpg
 sad
-out.png
+*.png
+.vscode/
+.vs/
+*.swp
+data
+*.png
+.DS_Store
