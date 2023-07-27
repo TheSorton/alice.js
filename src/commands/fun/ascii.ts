@@ -17,6 +17,7 @@ module.exports = {
         .setDescription('The font to use.')
         .setRequired(false)),
     async execute(interaction) {
+       try {
         const text = interaction.options.getString('text');
         const font = interaction.options.getString('font');
         figlet.text(
@@ -37,5 +38,9 @@ module.exports = {
                 interaction.reply("```\n"+ data + "\n```");
             }
         );
+       }
+       catch (e) {
+              console.log(e)
+       }
     }
 }
