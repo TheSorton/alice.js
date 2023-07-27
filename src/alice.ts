@@ -1,6 +1,10 @@
 const fs = require('fs');
 const path = require('path');
 const { Client, Collection, Events, GatewayIntentBits } = require('discord.js');
+const { MongoClient, ServerApiVersion } = require("mongodb");
+const uri = "mongodb://127.0.0.1:27017";
+import { pingMongoDB, createMongoCollection, queryMongoCollection } from './lib/mongo/mongo';
+
 import * as config from '../config/config.json'
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
@@ -18,7 +22,7 @@ for (const folder of commandFolders) {
 		if ('data' in command && 'execute' in command) {
 			client.commands.set(command.data.name, command);
 		} else {
-			console.log(`[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`);
+			console.warn(`[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`);
 		}
 	}
 }
@@ -36,4 +40,19 @@ for (const file of eventFiles) {
 	}
 }
 
+export const mClient = new MongoClient(uri,  {
+	serverApi: {
+		version: ServerApiVersion.v1,
+		strict: true,
+		deprecationErrors: true,
+	}
+});
+
 client.login(config.bot.token);  
+/* ON client ready */
+client.once(Events.ClientReady, async (c) => {
+	console.log(`Logged in as ${c.user.tag}!\n`, c.user);
+	await pingMongoDB(mClient);
+	await createMongoCollection(mClient, c);
+	await queryMongoCollection("alice", "users", {username: "arisu"}, mClient);
+});
