@@ -30,6 +30,7 @@ const rest = new REST().setToken(config.bot.token);
 // and deploy your commands!
 (async () => {
 	try {
+		console.clear()
 		console.log(`Started refreshing ${commands.length} application (/) commands.`);
 
 		// The put method is used to fully refresh all commands in the guild with the current set
