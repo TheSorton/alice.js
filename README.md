@@ -17,17 +17,25 @@ Don't. Host it yourself for now.
     "bot": {
         "token": "token",
         "prefix": "prefix",
-        "owner": "your id",
-        "clientId": "app id"
+        "owner": "bot owner id",
+        "clientId": "bot id"
     },
     "lastfm": {
         "apikey": "last.fm api key"
     },
+    "cat": {
+        "apikey": "cat api key (https://thecatapi.com)"
+    },
+    "anilist": {
+        "apikey": "anilist api key"
+    },
     "google":  {
         "apikey": "google api key",
-        "cx": "google custom search indentifier"
+        "cx": "google custom search engine identifier for images"
     }
-
 }
 ```
-to `config/config.json`
+in `config/config.json`
+
+# MongoDB
+This bot uses MongoDB. It creates a database titled `main` and connects to `mongodb://localhost:27017/main` which can be seen on line 10.
