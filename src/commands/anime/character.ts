@@ -22,7 +22,7 @@ module.exports = {
       }
     
       const idArray = await getId(interaction.options.getString('character'));
-      console.log(idArray)
+      //console.log(idArray)
       id = idArray[0] != null ? idArray[0].id : null;
     
       if (!id) {

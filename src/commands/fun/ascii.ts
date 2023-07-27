@@ -1,6 +1,6 @@
 const figlet = require('figlet');
 const { SlashCommandBuilder } = require('@discordjs/builders');
-
+import { textColor } from '../../lib/colors';
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -31,7 +31,7 @@ module.exports = {
             },
             function (err, data) {
                 if (err) {
-                    console.log("Something went wrong...");
+                    console.log(`${textColor.fgRed}❌ Something went wrong...${textColor.reset}`);
                     console.dir(err);
                     return;
                 }

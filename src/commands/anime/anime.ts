@@ -28,7 +28,7 @@ module.exports = {
     }
 
     const data = await Anilist.media.anime(id);
-      console.log(data)
+      //console.log(data)
     const genres = data.genres.join(", ");
     
     let studio = "";

@@ -6,6 +6,7 @@ const uri = "mongodb://127.0.0.1:27017";
 import { pingMongoDB, createMongoCollection, queryMongoCollection } from './lib/mongo/mongo';
 
 import * as config from '../config/config.json'
+import { textColor } from './lib/colors';
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 
@@ -51,7 +52,7 @@ export const mClient = new MongoClient(uri,  {
 client.login(config.bot.token);  
 /* ON client ready */
 client.once(Events.ClientReady, async (c) => {
-	console.log(`Logged in as ${c.user.tag}!\n`, c.user);
+	console.log(`${textColor.fgGreen}✨ Logged in as ${c.user.tag}!\n${textColor.reset}`);
 	await pingMongoDB(mClient);
 	await createMongoCollection(mClient, c);
 	await queryMongoCollection("alice", "users", {username: "arisu"}, mClient);

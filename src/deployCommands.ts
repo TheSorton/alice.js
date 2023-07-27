@@ -1,3 +1,5 @@
+import { textColor } from "./lib/colors";
+
 const { REST, Routes } = require('discord.js');
 const config = require("../config/config.json")
 const fs = require('fs');const path = require('path');
@@ -19,7 +21,7 @@ for (const folder of commandFolders) {
 		if ('data' in command && 'execute' in command) {
 			commands.push(command.data.toJSON());
 		} else {
-			console.log(`[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`);
+			console.log(`${textColor.fgYellow}[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.${textColor.reset}`);
 		}
 	}
 }
@@ -31,7 +33,17 @@ const rest = new REST().setToken(config.bot.token);
 (async () => {
 	try {
 		console.clear()
-		console.log(`Started refreshing ${commands.length} application (/) commands.`);
+		console.log(`${textColor.fgBlue}` + "\
+ _______\n\
+< ALICE >\n\
+ -------\n\
+        \\   ^__^\n\
+         \\  (oo)\_______\n\
+            (__)\        )\/\\\n\
+                ||----w |\n\
+                ||     ||\n\
+   		")
+		console.log(`🔄 Started refreshing ${commands.length} application (/) commands.`);
 
 		// The put method is used to fully refresh all commands in the guild with the current set
 		const data = await rest.put(
@@ -39,7 +51,7 @@ const rest = new REST().setToken(config.bot.token);
 			{ body: commands },
 		);
 
-		console.log(`Successfully reloaded ${data.length} application (/) commands.`);
+		console.log(`✅ Successfully reloaded ${data.length} application (/) commands. ${textColor.reset}`);
 	} catch (error) {
 		// And of course, make sure you catch and log any errors!
 		console.error(error);
