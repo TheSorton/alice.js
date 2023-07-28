@@ -2,7 +2,8 @@ import { textColor } from "./lib/colors";
 
 const { REST, Routes } = require('discord.js');
 const config = require("../config/config.json")
-const fs = require('fs');const path = require('path');
+const fs = require('fs');
+const path = require('path');
 
 
 const commands = [];
@@ -33,15 +34,20 @@ const rest = new REST().setToken(config.bot.token);
 (async () => {
 	try {
 		console.clear()
-		console.log(`${textColor.fgBlue}` + "\
- _______\n\
-< ALICE >\n\
- -------\n\
-        \\   ^__^\n\
-         \\  (oo)\_______\n\
-            (__)\        )\/\\\n\
-                ||----w |\n\
-                ||     ||\n\
+		console.log(`${textColor.fgCyan}` + "\
+                                                                              \n\
+	 .8.          8 8888          8 8888     ,o888888o.    8 8888888888   	  \n\
+        .888.         8 8888          8 8888    8888     `88.  8 8888         \n\
+       :88888.        8 8888          8 8888 ,8 8888       `8. 8 8888         \n\
+      . `88888.       8 8888          8 8888 88 8888           8 8888         \n\
+     .8. `88888.      8 8888          8 8888 88 8888           8 888888888888 \n\
+    .8`8. `88888.     8 8888          8 8888 88 8888           8 8888         \n\
+   .8' `8. `88888.    8 8888          8 8888 88 8888           8 8888         \n\
+  .8'   `8. `88888.   8 8888          8 8888 `8 8888       .8' 8 8888         \n\
+ .888888888. `88888.  8 8888          8 8888    8888     ,88'  8 8888         \n\
+.8'       `8. `88888. 8 888888888888  8 8888     `8888888P'    8 888888888888 \n\
+\n\
+			A discord bot\n\
    		")
 		console.log(`🔄 Started refreshing ${commands.length} application (/) commands.`);
 

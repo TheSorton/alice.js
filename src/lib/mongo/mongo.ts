@@ -15,9 +15,13 @@ export async function pingMongoDB(mClient) {
     console.log(
       `${textColor.fgGreen}✅ Pinged your deployment. You successfully connected to MongoDB!`
     );
+  } catch (e) {
+    console.error(`${textColor.fgRed}❌ Error connecting to MongoDB. Check your connection string or check to see if MongoDB is running.${textColor.reset}`)
+    return;
   } finally {
-    // Ensures that the client will close when you finish/error
-    await mClient.close();
+     if (mClient.isConnected()) {
+      mClient.close()
+     }
   }
 }
 
