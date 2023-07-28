@@ -1,0 +1,20 @@
+{
+  "bot": {
+    "token": "token",
+    "owner": "bot owner id",
+    "clientId": "bot id"
+  },
+  "lastfm": {
+    "apikey": "last.fm api key"
+  },
+  "cat": {
+    "apikey": "cat api key (https://thecatapi.com)"
+  },
+  "anilist": {
+    "apikey": "anilist api key"
+  },
+  "google": {
+    "apikey": "google api key",
+    "cx": "google custom search engine identifier for images"
+  }
+}

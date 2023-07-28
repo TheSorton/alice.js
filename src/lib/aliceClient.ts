@@ -3,7 +3,6 @@ import * as Discord from "discord.js";
 import Command from "./command";
 import config from "../../config/config.json";
 
-export const prefix = config.bot.prefix;
 export const owner = parseInt(config.bot.owner);
 
 export default class aliceClient extends Discord.Client {

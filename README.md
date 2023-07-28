@@ -1,41 +1,45 @@
 # alice
+
 A multifunctional Discord bot in TypeScript.
 
 ## Features
-***Disclaimer:*** As long as you see this, the features listed below may not be implemented.
 
-- Moderation utilities such as banning, kicking, logging, and more.
+**_Disclaimer:_** As long as you see this, the features listed below may not be implemented.
+
 - General utilities such as searching Google Images, YouTube, Urban Dictionary, MyAnimeList, dice rolls, and more.
 - Anything else I can think of
 
 ## Adding to your server
-Don't. Host it yourself for now. 
+
+Don't. Host it yourself for now.
 
 ## Configuration
+
 ```json
 {
-    "bot": {
-        "token": "token",
-        "prefix": "prefix",
-        "owner": "bot owner id",
-        "clientId": "bot id"
-    },
-    "lastfm": {
-        "apikey": "last.fm api key"
-    },
-    "cat": {
-        "apikey": "cat api key (https://thecatapi.com)"
-    },
-    "anilist": {
-        "apikey": "anilist api key"
-    },
-    "google":  {
-        "apikey": "google api key",
-        "cx": "google custom search engine identifier for images"
-    }
+  "bot": {
+    "token": "token",
+    "owner": "bot owner id",
+    "clientId": "bot id"
+  },
+  "lastfm": {
+    "apikey": "last.fm api key"
+  },
+  "cat": {
+    "apikey": "cat api key (https://thecatapi.com)"
+  },
+  "anilist": {
+    "apikey": "anilist api key"
+  },
+  "google": {
+    "apikey": "google api key",
+    "cx": "google custom search engine identifier for images"
+  }
 }
 ```
+
 in `config/config.json`
 
 # MongoDB
+
 This bot uses MongoDB. It creates a database titled `main` and connects to `mongodb://localhost:27017/main` which can be seen on line 10.
