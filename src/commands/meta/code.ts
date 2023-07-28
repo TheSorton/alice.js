@@ -5,6 +5,6 @@ module.exports = {
     .setName("code")
     .setDescription("Returns the bot's Github."),
   async execute(interaction) {
-    interaction.reply("https://github.com/thesorton/alice/tree/slash");
+    interaction.reply("https://github.com/thesorton/alice/");
   },
 };
