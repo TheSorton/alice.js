@@ -34,7 +34,7 @@ const rest = new REST().setToken(config.bot.token);
 (async () => {
 	try {
 		console.clear()
-		console.log(`${textColor.fgCyan}` + "\
+		console.log(`${textColor.fgMagenta}` + "\
                                                                               \n\
 	 .8.          8 8888          8 8888     ,o888888o.    8 8888888888   	  \n\
         .888.         8 8888          8 8888    8888     `88.  8 8888         \n\
@@ -49,7 +49,7 @@ const rest = new REST().setToken(config.bot.token);
 \n\
 			A discord bot\n\
    		")
-		console.log(`🔄 Started refreshing ${commands.length} application (/) commands.`);
+		console.log(`${textColor.fgBlue}🔄 Started refreshing ${commands.length} application (/) commands.`);
 
 		// The put method is used to fully refresh all commands in the guild with the current set
 		const data = await rest.put(

@@ -1,6 +1,7 @@
 import { Client } from "discord.js";
 import { mongoSchema } from "./schema";
 import { textColor } from "../colors";
+import { mongoEnabled } from "../../alice";
 
 /**
  * ping a MongoDB deployment
@@ -15,13 +16,11 @@ export async function pingMongoDB(mClient) {
     console.log(
       `${textColor.fgGreen}✅ Pinged your deployment. You successfully connected to MongoDB!`
     );
+    await mClient.close();
+    return true;
   } catch (e) {
-    console.error(`${textColor.fgRed}❌ Error connecting to MongoDB. Check your connection string or check to see if MongoDB is running.${textColor.reset}`)
-    return;
-  } finally {
-     if (mClient.isConnected()) {
-      mClient.close()
-     }
+    console.error(`${textColor.fgRed}❌ [mongo.ts line 19] Error connecting to MongoDB. Check your connection string or check to see if MongoDB is running.${textColor.reset}`)
+    return false;
   }
 }
 

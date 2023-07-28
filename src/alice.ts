@@ -67,10 +67,11 @@ client.once(Events.ClientReady, async (c) => {
     `${textColor.fgGreen}✨ Logged in as ${c.user.tag}!\n${textColor.reset}`
   );
   try {
-    await pingMongoDB(mClient)
-    mongoEnabled = true;
+    if (await pingMongoDB(mClient)) {
+      mongoEnabled = true;
+    }
   } catch (e) {
-    console.error(`${textColor.fgRed}❌ Error connecting to MongoDB. Check your connection string or check to see if MongoDB is running.${textColor.reset}`)
+    console.error(e)
     mongoEnabled = false;
   }
   try {
@@ -78,7 +79,7 @@ client.once(Events.ClientReady, async (c) => {
       await createMongoCollection(mClient, c);
   }
   } catch (e) {
-    console.error(`${textColor.fgRed}❌ Error connecting to MongoDB. Check your connection string or check to see if MongoDB is running.${textColor.reset}`)
+    console.error(`${textColor.fgRed}❌ [alice.ts:81] Error connecting to MongoDB. Check your connection string or check to see if MongoDB is running.${textColor.reset}`)
     mongoEnabled = false;
   }
 });
