@@ -2,6 +2,9 @@
 
 A multifunctional Discord bot in TypeScript.
 
+![Screenshot of the alice Discord bot running.](https://i.imgur.com/GKKTsxp.png)
+
+
 ## Features
 
 **_Disclaimer:_** As long as you see this, the features listed below may not be implemented.
