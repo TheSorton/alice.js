@@ -1,7 +1,6 @@
 import { Client } from "discord.js";
 import { mongoSchema } from "./schema";
 import { textColor } from "../colors";
-import { mongoEnabled } from "../../alice";
 
 /**
  * ping a MongoDB deployment
