@@ -1,6 +1,6 @@
 {
   "name": "alice",
-  "description": "",
+  "description": "A multifunctional Discord bot in TypeScript.",
   "main": "alice.ts",
   "scripts": {
     "start": "npx ts-node ./src/deployCommands.ts && npx ts-node ./src/alice.ts"
@@ -9,8 +9,8 @@
     "type": "git",
     "url": "git+https://github.com/TheSorton/alice.git"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": ["discord", "bot"],
+  "author": "TheSorton",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/TheSorton/alice/issues"
