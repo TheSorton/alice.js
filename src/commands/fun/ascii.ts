@@ -17,7 +17,35 @@ module.exports = {
         .setName("font")
         .setDescription("The font to use.")
         .setRequired(false)
+        .addChoices(
+          { name: "3-d", value: "3-d" },
+          { name: "3x5", value: "3x5" },
+          { name: "5lineoblique", value: "5lineoblique" },
+          { name: "acrobatic", value: "acrobatic" },
+          { name: "alligator", value: "alligator" },
+          { name: "alligator2", value: "alligator2" },
+          { name: "alphabet", value: "alphabet" },
+          { name: "doom", value: "doom" },
+          { name: "dotmatrix", value: "dot matrix" },
+          { name: "dr pepper", value: "dr pepper" },
+          { name: "eftichess", value: "efti chess" },
+          { name: "isometric1", value: "isometric1" },
+          { name: "isometric2", value: "isometric2" },
+          { name: "isometric3", value: "isometric3" },
+          { name: "isometric4", value: "isometric4" },
+          { name: "larry3d", value: "larry 3d" },
+          { name: "hex", value: "hex" },
+          { name: "binary", value: "binary" },
+          { name: "octal", value: "octal" },
+          { name: "small", value: "small" },
+          { name: "big", value: "big" },
+          { name: "block", value: "block" },
+          { name: "broadway", value: "broadway" },
+          { name: "merlin", value: "merlin" },
+          { name: "poison", value: "poison" },
+        ) 
     ),
+    
   async execute(interaction) {
     try {
       const text = interaction.options.getString("text");

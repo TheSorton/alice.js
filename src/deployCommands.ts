@@ -5,7 +5,6 @@ const config = require("../config/config.json")
 const fs = require('fs');
 const path = require('path');
 
-
 const commands = [];
 // Grab all the command folders from the commands directory you created earlier
 const foldersPath = path.join(__dirname, 'commands');
