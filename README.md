@@ -45,4 +45,6 @@ in `config/config.json`
 
 # MongoDB
 
-This bot uses MongoDB. It creates a database titled `main` and connects to `mongodb://localhost:27017/main` which can be seen on line 10.
+This bot uses MongoDB. It creates a database titled `main` and connects to `mongodb://localhost:27017/alice` which can be seen on line 10. 
+
+This isn't a hard requirement. The bot will work without MonogoDB.

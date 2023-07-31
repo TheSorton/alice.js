@@ -9,3 +9,4 @@ sad
 data
 *.png
 .DS_Store
+*.log
