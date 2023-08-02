@@ -11,7 +11,6 @@ import * as config from "../config/config.json";
 import { textColor } from "./lib/colors";
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
-const uri = "mongodb://127.0.0.1:27017";
 export let mongoEnabled: boolean = false;
 
 client.commands = new Collection();
@@ -50,9 +49,9 @@ for (const file of eventFiles) {
     client.on(event.name, (...args) => event.execute(...args));
   }
 }
+export const mongoUri = "mongodb://127.0.0.1:27017";
 
-
-export const mClient = new MongoClient(uri, {
+export const mClient = new MongoClient(mongoUri, {
   serverApi: {
     version: ServerApiVersion.v1,
     strict: true,
@@ -60,14 +59,17 @@ export const mClient = new MongoClient(uri, {
   },
 });
 
+export const mongoClient = mClient;
+
 client.login(config.bot.token);
 /* ON client ready */
 client.once(Events.ClientReady, async (c) => {
   console.log(
     `${textColor.fgGreen}✨ Logged in as ${c.user.tag}!\n${textColor.reset}`
   );
+  console.log(`${textColor.fgBlue}🔄 Checking MongoDB connection...${textColor.reset}`)
   try {
-    if (await pingMongoDB(mClient)) {
+    if (await pingMongoDB()) {
       mongoEnabled = true;
     }
   } catch (e) {
@@ -76,7 +78,7 @@ client.once(Events.ClientReady, async (c) => {
   }
   try {
     if (mongoEnabled) {
-      await createMongoCollection(mClient, c);
+      await createMongoCollection(c);
   }
   } catch (e) {
     console.error(`${textColor.fgRed}❌ [alice.ts:81] Error connecting to MongoDB. Check your connection string or check to see if MongoDB is running.${textColor.reset}`)

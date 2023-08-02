@@ -7,6 +7,10 @@
   "lastfm": {
     "apikey": "last.fm api key"
   },
+  "genius" : {
+    "clientId": "genius client id (https://genius.com/api-clients)",
+    "clientSecret": "genius client secret"
+  },
   "cat": {
     "apikey": "cat api key (https://thecatapi.com)"
   },
