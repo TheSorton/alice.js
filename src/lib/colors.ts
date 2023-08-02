@@ -1,5 +1,6 @@
 /**
- * @module colors
+ * @module colors –
+ * This module provides escape sequences for colored text in the console.
  */
 
 export const textColor = {
