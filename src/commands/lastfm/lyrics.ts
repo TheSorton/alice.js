@@ -4,9 +4,11 @@ import {
   EmbedBuilder,
 } from "discord.js";
 import mongoose from "mongoose";
-import { getLyrics, getSong } from "genius-lyrics-api";
+import * as Genius from "genius-lyrics";
 import axios from "axios";
 import * as config from "../../../config/config.json";
+
+const gClient = new Genius.Client(config.genius.clientToken);
 
 // Write a slash command that uses mongoose and axios and the last.fm api to get a users last.fm data
 
@@ -23,7 +25,8 @@ module.exports = {
       .findOne({ userID: interaction.user.id });
     if (!user) {
       await interaction.reply({
-        content: "You haven't set your last.fm username yet. use /fmset to set it.",
+        content:
+          "You haven't set your last.fm username yet. use /fmset to set it.",
         ephemeral: true,
       });
       return;
@@ -33,12 +36,10 @@ module.exports = {
       `http://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=${user.lastfm}&api_key=${config.lastfm.apikey}&format=json`
     );
     const track = data.recenttracks.track[0];
-    const lyrics = await getLyrics({
-      apiKey: config.genius.clientToken,
-      title: track.name,
-      artist: track.artist["#text"],
-      optimizeQuery: true,
-    });
+    const song = await gClient.songs.search(
+      `${track.name} ${track.artist["#text"]}`
+    );
+    const lyrics = await song[0].lyrics();
     const embed = new EmbedBuilder()
       .setURL(`https://www.last.fm/user/${user.lastfm}`)
       .setThumbnail(track.image[3]["#text"]);
@@ -56,12 +57,12 @@ module.exports = {
       });
     }
     embed.addFields([
-        { name: "Track", value: track.name, inline: true },
-        { name: "Artist", value: track.artist["#text"], inline: true },
-      ]);
+      { name: "Track", value: track.name, inline: true },
+      { name: "Artist", value: track.artist["#text"], inline: true },
+    ]);
 
     if (lyrics) {
-        embed.setDescription(lyrics);
+      embed.setDescription(lyrics);
     } else {
       embed.setDescription("No lyrics found");
     }
