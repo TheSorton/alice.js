@@ -1,9 +1,9 @@
 import { textColor } from "./lib/colors";
 
-const { REST, Routes } = require('discord.js');
-const config = require("../config/config.json")
-const fs = require('fs');
-const path = require('path');
+import { REST, Routes } from 'discord.js';
+import config from "../config/config.json";
+import fs from 'fs';
+import path from 'path';
 
 const commands = [];
 // Grab all the command folders from the commands directory you created earlier
@@ -51,7 +51,7 @@ const rest = new REST().setToken(config.bot.token);
 		console.log(`${textColor.fgBlue}🔄 Started refreshing ${commands.length} application (/) commands.`);
 
 		// The put method is used to fully refresh all commands in the guild with the current set
-		const data = await rest.put(
+		const data: any  = await rest.put(
             Routes.applicationCommands(config.bot.clientId),
 			{ body: commands },
 		);

@@ -16,7 +16,7 @@
         "@typescript-eslint"
     ],
     "rules": {
-        "@typescript-eslint/var-type": "off",
+        "@typescript-eslint/no-var-requires": "off",
         "max-depth": ["error", 3]
     }
 }
